@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_categories">
+		<item>图书</item>
+		<item>音乐</item>
+		<item>游戏</item>
+		<item>美食</item>
+		<item>电影 </item>
+	</string-array>
+</resources>

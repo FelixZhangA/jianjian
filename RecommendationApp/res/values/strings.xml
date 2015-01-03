@@ -1,0 +1,57 @@
+<resources>
+
+    <string name="app_name">万象推荐</string>
+    <string name="string_register">注册</string>
+    <string name="string_login">登录</string>
+    <string name="string_copy_right">\@2014 WANXIANG All Right Reserved</string>
+    <string name="main_action_bar_name">万象</string>
+    <string name="string_category">品类</string>
+    <string name="string_entity">输入名称</string>
+    <string name="string_content">推荐理由</string>
+    <string name="string_anonymous">匿名推荐</string>
+    <string name="string_publish">推荐</string>
+    <string name="string_publish_recommandation">发表推荐</string>
+    <string name="error_publish_missing">请输入推荐物的名称或品类</string>
+    <string name="error_publish_exceed">内容超出字数限制</string>
+    <string name="error_publish_no_text">请输入评论内容</string>
+    <string name="string_publishing">推荐发布中&#8230;&#8230;&#8230;</string>
+    <string name="scan_date_time_format_12hour_clock">MM-dd aaa HH:mm:ss </string>
+    <string name="scan_date_time_format_24hour_clock">MM-dd HH:mm:ss</string>
+    <string name="string_send">发送</string>
+    <string name="string_send_hint">回复  %s :</string>
+    <string name="string_comment_succ">评论成功</string>
+    <string name="string_comment_fail">评论失败</string>
+    <string name="string_category_fragment_name">品类</string>
+    <string name="string_casual_fragment_name">随便逛逛</string>
+    <string name="string_empty_name">暂无推荐内容，去发布一个吧~</string>
+    <string name="tab_home">首页</string>
+    <string name="tab_channel">圈子</string>
+    <string name="tab_message">消息</string>
+    <string name="tab_mine">我</string>
+    <string name="ask_for_recommandation">求推荐</string>
+    <string name="recommandation_for_ta">为TA推荐</string>
+    <string name="see_all_recommendation">看大家的推荐</string>
+    <string name="publish_recommandation">发推荐</string>
+    <string name="invite_recommandation">邀请推荐</string>
+    <string name="join_discussion_recommandation">加入讨论</string>
+    <string name="category_user" formatted="false">%s 推荐</string>
+    <string name="rec_detail_header" formatted="false">%s 推荐 %s</string>
+    <string name="category_friends_count" formatted="false">%d个圈内好友</string>
+    <string name="ask_rec_user" formatted="false">%s 求推荐</string>
+
+    <!-- 发布推荐 -->
+    <string name="cancel">取消</string>
+    <string name="next">下一步</string>
+    <string name="publish_rec">发布</string>
+    <string name="entity_hint">推荐什么</string>
+    <string name="ask_recommendation_hint">请朋友给你推荐什么</string>
+    <string name="recommendation_hint">说点什么</string>
+    <string name="channel">所属圈子</string>
+    <string name="publish_annoy">匿名发布</string>
+
+    <!-- 频道详情 -->
+    <string name="category_tab_dynamic">动态</string>
+    <string name="category_tab_rank">排行</string>
+    <string name="nothing_to_show">敬请期待……</string>
+
+</resources>

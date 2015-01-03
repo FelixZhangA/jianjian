@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Tech Call will display always -->
+    <item
+        android:id="@+id/action_attach_img"
+        android:icon="@drawable/ic_attachment"
+        android:showAsAction="always"
+        android:title="Tech_Call"/>
+    <item
+        android:id="@+id/action_publish"
+        android:icon="@drawable/ic_publish"
+        android:title="@string/string_publish"
+        android:showAsAction="always|withText"/>
+
+</menu>

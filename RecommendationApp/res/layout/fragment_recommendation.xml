@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/tv_entity"
+        style="@style/publish_tv_style"
+        android:background="@null"
+        android:hint="@string/entity_hint"
+        android:minLines="1"
+        android:textSize="22dp" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/kz_cell_topline" />
+
+    <EditText
+        android:id="@+id/tv_content"
+        style="@style/publish_tv_style"
+        android:layout_marginTop="18dp"
+        android:background="@null"
+        android:hint="@string/recommendation_hint"
+        android:minLines="3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_remain_chars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="right"
+        android:text="160"
+        android:visibility="gone"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/kz_cell_topline"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_annoy"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/publish_annoy"
+            android:textSize="18sp" />
+
+        <Switch
+            android:id="@+id/switch_annoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" >
+        </Switch>
+    </RelativeLayout>
+
+</LinearLayout>

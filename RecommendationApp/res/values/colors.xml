@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="recommandation_item_divider">#E5E5E5</color>
+    <color name="BG_BLUE">#489BF0</color>
+    <color name="BG_GREEN">#99CCA4</color>
+    <color name="BG_GRAY">#999999</color>
+    <color name="BG_RED">#FF0000</color>
+    <color name="category_text_color">#E5E5E5</color>
+    <color name="BG_WHITE">#FFFFFF</color>
+    <color name="BG_BLACK">#000000</color>
+    <color name="weibo_listtab_off">#8d8d8d</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="light_grey">#EEEEEE</color>
+
+</resources>

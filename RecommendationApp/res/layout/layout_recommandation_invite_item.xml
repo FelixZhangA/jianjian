@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/homepage_title_category_style"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="来自万象美剧的邀请"
+        android:textColor="@color/BG_BLACK"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        style="@style/homepage_title_category_style"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="美剧陆续回归，快来推荐喜欢的美剧吧~"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_invite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/join_discussion_recommandation"
+        android:textSize="16sp" />
+
+</LinearLayout>

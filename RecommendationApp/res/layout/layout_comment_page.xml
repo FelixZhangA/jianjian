@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/recommandation_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_recommandation_detail" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list_comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/recommandation_item"
+        android:layout_above="@+id/send_comment_bar"
+        android:divider="@null"
+        android:dividerHeight="8dp" />
+
+    <LinearLayout
+        android:id="@+id/send_comment_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="clip_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/edit_content"
+            style="@style/publish_tv_style"
+            android:layout_width="0dp"
+            android:layout_gravity="left"
+            android:layout_weight="0.8"
+            android:hint="@string/string_send_hint" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.2"
+            android:background="@drawable/btn_publish_background"
+            android:gravity="center"
+            android:text="@string/string_send"
+            android:textColor="@color/BG_BLACK"
+            android:textSize="18sp" />
+           
+    </LinearLayout>
+
+</RelativeLayout>

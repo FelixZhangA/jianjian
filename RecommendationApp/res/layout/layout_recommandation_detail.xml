@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@color/BG_WHITE"
+    android:orientation="vertical"
+    android:paddingLeft="5dip"
+    android:paddingRight="10dip" >
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/img_badge"
+            android:layout_width="@dimen/badge_size"
+            android:layout_height="@dimen/badge_size"
+            android:src="@drawable/user_icon" />
+
+        <TextView
+            android:id="@+id/tv_user"
+            style="@style/homepage_title_category_style"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_badge"
+            android:text="小胡 推荐  电影" />
+
+        <TextView
+            android:id="@+id/tv_entity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_badge"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/light_grey"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:text="社交网络"
+            android:textSize="22sp" >
+        </TextView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        style="@style/homepage_title_style"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="Facebook的成功经验，值得后人借鉴" />
+
+    <RelativeLayout
+        android:id="@+id/action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:paddingRight="20dip" >
+
+        <TextView
+            android:id="@+id/tv_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="5dp"
+            android:text="30分钟前" />
+
+        <RelativeLayout
+            android:id="@+id/rl_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right" >
+
+            <ImageView
+                android:id="@+id/img_praise"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="TODO"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_like" />
+
+            <TextView
+                android:id="@+id/tv_praise"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/img_praise"
+                android:text="10" />
+
+            <ImageView
+                android:id="@+id/img_comment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/tv_praise"
+                android:contentDescription="TODO"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/img_comment"
+                android:text="5" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rl_category_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_grey">
+
+        <TextView
+            android:id="@+id/tv_category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="电影"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_category_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_category_name"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="电影是人类第七大艺术"
+            android:visibility="gone"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_category_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_category_desc"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="10个朋友喜欢"
+            android:visibility="gone"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_category_friends"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="+加入"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_join"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/kz_cell_topline" />
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/lst_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="8dp" >
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    <!--
+    <TabHost
+        android:id="@+id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent" >
+
+                <com.handmark.pulltorefresh.library.PullToRefreshListView
+                    android:id="@+id/lst_dynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="8dp" >
+                </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+                <com.handmark.pulltorefresh.library.PullToRefreshListView
+                    android:id="@+id/lst_rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="8dp"
+                    android:visibility="gone" >
+                </com.handmark.pulltorefresh.library.PullToRefreshListView>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+    -->
+
+</LinearLayout>
