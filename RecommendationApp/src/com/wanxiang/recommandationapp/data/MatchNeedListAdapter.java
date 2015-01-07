@@ -95,7 +95,7 @@ public class MatchNeedListAdapter extends BaseAdapter {
 
 			}
 		});
-		holder.tvUser.setText(mContext.getString(R.string.rec_detail_header, rec.getUserName(), rec.getCategoryName()));
+		holder.tvUser.setText(mContext.getString(R.string.rec_detail_header, rec.getUser().getName(), rec.getCategoryName()));
 
 		holder.tvContent.setText(rec.getDescription());
 		holder.tvDate.setText(Utils.formatDate(mContext, rec.getUpdateTime()));

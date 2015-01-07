@@ -29,7 +29,8 @@ import com.wanxiang.recommandationapp.util.Utils;
 public abstract class NetTaskMessage<T> extends FusionMessage
 {
 
-	private static final String	BASE_URL			= "http://182.92.187.217/index.php?module=core&action=";
+//	private static final String	BASE_URL			= "http://182.92.187.217/index.php?module=core&action=";
+	private static final String	BASE_URL			= "http://182.92.187.217/api/";
 	/**
 	 * 
 	 */

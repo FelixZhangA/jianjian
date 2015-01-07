@@ -166,7 +166,7 @@ public class RecommendationDao implements SQLiteDatabaseInterface
 		r.setUpdateTime(c.getLong(c.getColumnIndex(DatabaseConstants.COLUMN_DATE)));
 		r.setPhraiseNum(c.getInt(c.getColumnIndex(DatabaseConstants.COLUMN_PRAISE_NUM)));
 		r.setCommentNum(c.getInt(c.getColumnIndex(DatabaseConstants.COLUMN_COMMENT_NUM)));
-		r.setUserName(c.getString(c.getColumnIndex(DatabaseConstants.COLUMN_USER)));
+//		r.setUserName(c.getString(c.getColumnIndex(DatabaseConstants.COLUMN_USER)));
 
 		return r;
 	}
@@ -180,7 +180,7 @@ public class RecommendationDao implements SQLiteDatabaseInterface
 		cv.put(DatabaseConstants.COLUMN_CATEGORY, r.getCategoryName());
 		cv.put(DatabaseConstants.COLUMN_CONTENT, r.getDescription());
 		cv.put(DatabaseConstants.COLUMN_DATE, r.getUpdateTime());
-		cv.put(DatabaseConstants.COLUMN_USER, r.getUserName());
+		cv.put(DatabaseConstants.COLUMN_USER, r.getUser().getName());
 		cv.put(DatabaseConstants.COLUMN_PRAISE_NUM, r.getPhraiseNum());
 		cv.put(DatabaseConstants.COLUMN_COMMENT_NUM, r.getCommentNum());
 

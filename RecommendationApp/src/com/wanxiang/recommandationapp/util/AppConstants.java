@@ -17,7 +17,18 @@ public class AppConstants
 	public static final String HEADER_COMMENT_CONTENT = "comment";
 	public static final String HEADER_LEVEL = "level";
 	public static final String HEADER_NEEDID = "needId";
+	public static final String HEADER_PHONE = "phone";
+	public static final String HEADER_PASSWORD = "password";
+	public static final String HEADER_USER_NAME = "name";
+	public static final String HEADER_VERIFY_CODE = "code";
+	public static final String HEADER_CONTACTS = "contacts";
+	public static final String HEADER_TOKEN = "token";
+	public static final String HEADER_HEAD_IMAGE = "headImage";
+	public static final String HEADER_SIGNATURE = "signature";
+	public static final String HEADER_REMARK = "remark";
+	public static final String HEADER_USER = "user";
 
+	
 	public static final String RESPONSE_HEADER_COMMENT = "comments";
 	public static final String RESPONSE_HEADER_ID = "id";
 
@@ -46,7 +57,6 @@ public class AppConstants
 	public static final String RESPONSE_HEADER_TYPE = "contentType";
 
 
-	public static final String ACTION_SHOW_REC_LIST = "GetFeedList";
 	public static final String ACTION_PUBLISH_REC = "PublishTuijian";
 	public static final String ACTION_PUBLISH_ASK_REC = "PublishNeed";
 	public static final String ACTION_SHOW_CATEGORY_DYNAMIC  = "GetCategoryFeedList";
@@ -54,11 +64,19 @@ public class AppConstants
 	public static final String ACTION_COMMENT_REC = "CommentTuijian";
 
 	public static final String ACTION_SHOW_REC_DETAIL = "GetTuijianDetail";
-	public static final String ACTION_SHOW_CATEGORY = "GetCategoryList";
 	public static final String ACTION_SHOW_ENTITY = "GetEntityFeedList";
 	public static final String ACTION_LIKE_CATEGORY = "LikeCategory";
 	public static final String ACTION_GET_NEED_MATCH_LIST = "GetNeedMatchList";
 	
+	
+	public static final String ACTION_LOGIN = "account/login";
+	public static final String ACTION_REGISTER = "account/register";
+	public static final String ACTION_SEND_PINCODE = "account/sendcode";
+	public static final String ACTION_CONTACTS_UPLOAD = "contacts/upload";
+	public static final String ACTION_SHOW_REC_LIST = "feed/list";
+	public static final String ACTION_SHOW_CATEGORY = "category/list";
+
+
 	public static final int RECOMMEDATION_TYPE = 1;
 	public static final int ASK_RECOMMEDATION_TYPE = 2;
 	

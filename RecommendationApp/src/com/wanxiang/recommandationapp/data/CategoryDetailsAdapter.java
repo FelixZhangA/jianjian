@@ -82,13 +82,13 @@ public class CategoryDetailsAdapter extends BaseAdapter {
 			// current.getFriendsCount()));
 			// holder.tvUser.setText(current.getLastUpdater().getName());
 			// holder.ivBadge.setBackgroundResource(R.drawable.user_icon);
-			if (current.isFavor()) {
-				holder.ivChecked.setVisibility(View.VISIBLE);
-				holder.btnJoin.setVisibility(View.GONE);
-			} else {
-				holder.ivChecked.setVisibility(View.GONE);
-				holder.btnJoin.setVisibility(View.VISIBLE);
-			}
+//			if (current.isFavor()) {
+//				holder.ivChecked.setVisibility(View.VISIBLE);
+//				holder.btnJoin.setVisibility(View.GONE);
+//			} else {
+//				holder.ivChecked.setVisibility(View.GONE);
+//				holder.btnJoin.setVisibility(View.VISIBLE);
+//			}
 
 			holder.btnJoin.setOnClickListener(new View.OnClickListener() {
 

@@ -89,7 +89,7 @@ public class Utils
 			ret.setCategoryName(obj.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
 			ret.setCategoryId(obj.getLong(AppConstants.RESPONSE_HEADER_CATEGORY_ID));
 			ret.setUserId(obj.getLong(AppConstants.RESPONSE_HEADER_USER_ID));
-			ret.setUserName(obj.getString(AppConstants.RESPONSE_HEADER_USER_NAME));
+			ret.setUser(obj.getJSONObject(AppConstants.HEADER_USER));
 
 			ret.setUpdateTime(obj.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
 
@@ -100,7 +100,6 @@ public class Utils
 			ret.setDescription(obj.getString(AppConstants.RESPONSE_HEADER_CONTENT));
 
 			ret.setUpdateTime(obj.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
-			ret.setUserName(obj.getString(AppConstants.RESPONSE_HEADER_USER_NAME));
 			// TODO: 评论列表
 			// ret.setComments(obj.getJSONArray(name))
 
@@ -130,7 +129,7 @@ public class Utils
 			{
 				ret.setUserId(obj.getLong(AppConstants.RESPONSE_HEADER_USER_ID));
 			}
-			ret.setUserName(obj.getString(AppConstants.RESPONSE_HEADER_USER_NAME));
+			ret.setUser(obj.getJSONObject(AppConstants.HEADER_USER));
 			
 			if (obj.has(AppConstants.RESPONSE_HEADER_CONTENT))
 			{

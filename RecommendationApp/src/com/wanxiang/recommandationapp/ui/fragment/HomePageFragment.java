@@ -89,6 +89,8 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 		HomePageMessage message = new HomePageMessage(HTTP_TYPE.HTTP_TYPE_GET);
 
 		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
+		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(getActivity()).getSessionId());
+
 		if (isPullDown)
 		{
 			mPageIndex = 1;

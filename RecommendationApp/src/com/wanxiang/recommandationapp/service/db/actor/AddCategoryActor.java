@@ -30,7 +30,6 @@ public class AddCategoryActor extends FusionActor {
 					bean.setCategoryName(cat.getCategoryName());
 					bean.setChildrenList(formateChildrenList(cat
 							.getChildrenList()));
-					bean.setFavorite(cat.isFavor());
 					bean.setRecent(false);
 					beanList.add(bean);
 				}

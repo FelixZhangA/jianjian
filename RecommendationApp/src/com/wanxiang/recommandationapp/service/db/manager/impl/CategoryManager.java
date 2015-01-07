@@ -189,7 +189,7 @@ public class CategoryManager implements ICategoryManager {
 						cat.setCategoryName(list[i]);
 					} else if (TextUtils.equals("favorite", tmp)) {
 						String favorite = list[i];
-						cat.setFavor(favorite.equals("0") ? false : true);
+//						cat.setFavor(favorite.equals("0") ? false : true);
 					} else if (TextUtils.equals("children", tmp)) {
 						if (!TextUtils.isEmpty(list[i])) {
 							ArrayList<Category> children = new ArrayList<Category>();
@@ -203,7 +203,7 @@ public class CategoryManager implements ICategoryManager {
 					} else if (TextUtils.equals("recent", tmp)) {
 						cat.setRecent(Boolean.parseBoolean(list[i]));
 					} else if (TextUtils.equals("parent_id", tmp)) {
-						cat.setParentId(Long.parseLong(list[i]));
+//						cat.setParentId(Long.parseLong(list[i]));
 					}
 					i++;
 				}

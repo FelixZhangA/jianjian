@@ -99,7 +99,6 @@ public class CategoryDao implements SQLiteDatabaseInterface
 			ret = new Category();
 			ret.setCategoryId(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.COLUMN_CATEGORY_UID)));
 			ret.setCategoryName(cursor.getString(cursor.getColumnIndex(DatabaseConstants.COLUMN_CATEGORY)));
-			ret.setColor(cursor.getInt(cursor.getColumnIndex(DatabaseConstants.COLUMN_CATEGORY_COLOR)));
 		}
 		return ret;
 	}
@@ -110,7 +109,6 @@ public class CategoryDao implements SQLiteDatabaseInterface
 
 		cv.put(DatabaseConstants.COLUMN_CATEGORY_UID, String.valueOf(System.currentTimeMillis()+1));
 		cv.put(DatabaseConstants.COLUMN_CATEGORY, cat.getCategoryName());
-		cv.put(DatabaseConstants.COLUMN_CATEGORY_COLOR, String.valueOf(cat.getColor()));
 		return cv;
 	}
 }

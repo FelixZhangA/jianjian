@@ -104,7 +104,7 @@ public class HomePageListAdapter extends BaseAdapter
 
 				}
 			});
-			holder.tvUser.setText(mContext.getString(R.string.category_user, r.getUserName()));
+			holder.tvUser.setText(mContext.getString(R.string.category_user, r.getUser().getName()));
 			holder.tvCategory.setText(r.getCategoryName());
 			holder.tvCategory.setOnClickListener(new View.OnClickListener()
 			{
@@ -187,7 +187,7 @@ public class HomePageListAdapter extends BaseAdapter
 				convertView.setTag(holder);
 			}
 			AskRecViewHolder holder = (AskRecViewHolder)convertView.getTag();
-			holder.tvUserEntity.setText(mContext.getString(R.string.ask_rec_user, r.getUserName()));
+			holder.tvUserEntity.setText(mContext.getString(R.string.ask_rec_user, r.getUser().getName()));
 			holder.tvContent.setText(r.getDescription());
 			holder.tvCategory.setText(r.getCategoryName());
 			holder.btn_rec.setOnClickListener(new View.OnClickListener()

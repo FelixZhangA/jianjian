@@ -62,7 +62,7 @@ public class MatchNeedListActivity extends Activity {
 		TextView tvCategory = (TextView) rLayout.findViewById(R.id.tv_category);
 
 		tvUserEntity.setText(MatchNeedListActivity.this.getString(
-				R.string.ask_rec_user, mAskRec.getUserName()));
+				R.string.ask_rec_user, mAskRec.getUser().getName()));
 		tvContent.setText(mAskRec.getDescription());
 		tvCategory.setText(mAskRec.getCategoryName());
 		Button btn_rec = (Button) rLayout.findViewById(R.id.btn_rec);

@@ -107,7 +107,7 @@ public class CommentsActivity extends Activity implements OnClickListener
 		mListView = (PullToRefreshListView)findViewById(R.id.list_comments);
 
 		mEditContent = (EditText)findViewById(R.id.edit_content);
-		mEditContent.setHint(getString(R.string.string_send_hint, mRecommendation.getUserName()));
+		mEditContent.setHint(getString(R.string.string_send_hint, mRecommendation.getUser().getName()));
 
 		mBtnSend = (Button)findViewById(R.id.btn_send);
 		mBtnSend.setOnClickListener(this);
@@ -145,7 +145,7 @@ public class CommentsActivity extends Activity implements OnClickListener
 		});
 
 		TextView tvName = (TextView)rLayout.findViewById(R.id.tv_user);
-		tvName.setText(getString(R.string.rec_detail_header, mRecommendation.getUserName(), mRecommendation.getCategoryName()));
+		tvName.setText(getString(R.string.rec_detail_header, mRecommendation.getUser().getName(), mRecommendation.getCategoryName()));
 
 		TextView tvContent = (TextView)rLayout.findViewById(R.id.tv_content);
 		tvContent.setText(mRecommendation.getDescription());
@@ -298,96 +298,7 @@ public class CommentsActivity extends Activity implements OnClickListener
 		FusionBus.getInstance(CommentsActivity.this).sendMessage(message);
 
 	}
-	public class FetchCommentAsynTask extends AsyncTask<Object, Object, Object>
-	{
 
-		private Context			context;
-		private CommentsAdapter	adapter;
-		private ProgressDialog	pd;
-
-		public FetchCommentAsynTask( Context context )
-		{
-			this.context = context;
-		}
-
-		@Override
-		protected void onPreExecute()
-		{
-			super.onPreExecute();
-			pd = new ProgressDialog(context);
-			pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			pd.setIndeterminate(true);
-			pd.show();
-		}
-
-		@Override
-		protected void onPostExecute( Object result )
-		{
-			if (result != null)
-			{
-				CommentDao dao = CommentDao.getAdapterObject(CommentsActivity.this);
-				mCursor = dao.getAllCommentsByIdCursor(mRecID);
-			}
-			super.onPostExecute(result);
-			if (pd != null && pd.isShowing())
-			{
-				pd.dismiss();
-			}
-			if (mAdapter == null)
-			{
-				mAdapter = new CommentsAdapter(context, mCursor, true);
-				mListView.setAdapter(mAdapter);
-			}
-			else
-			{
-				mAdapter.swapCursor(mCursor);
-			}
-
-		}
-
-		@Override
-		protected Object doInBackground( Object... params )
-		{
-			// try
-			// {
-			// CommentDao dao = CommentDao.getAdapterObject(context);
-			// mCursor = dao.getAllCommentsByIdCursor(mRecommendation.getId());
-			// }
-			// catch (Exception ex)
-			// {
-			// Log.e("wanxiang", ex.getMessage());
-			// }
-			// return null;
-
-			HttpClient client = null;
-			try
-			{
-				// Send recommendation to server;
-				Map<String, String> properties = new HashMap<String, String>();
-				properties.put(AppConstants.HEADER_USER_ID, String.valueOf(1));
-				properties.put(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID, String.valueOf(mRecID));
-
-				Map<String, String> headers = new HashMap<String, String>();
-				headers.put(AppConstants.HEADER_IMEI, AppPrefs.getInstance(CommentsActivity.this).getIMEI());
-
-				HttpPost request = HttpHelper.createHttpPost(AppConstants.ACTION_SHOW_REC_DETAIL, properties, headers);
-				client = HttpHelper.createHttpClient(false);
-				HttpResponse response = client.execute(request);
-				checkStatusCode(response);
-
-			}
-			catch (Exception ex)
-			{
-				return ex;
-			}
-			finally
-			{
-				client.getConnectionManager().shutdown();
-			}
-			return null;
-		}
-
-	}
 
 	private void handleRec( final Recommendation rec, boolean like, final TextView holder )
 	{
@@ -428,122 +339,7 @@ public class CommentsActivity extends Activity implements OnClickListener
 		
 		FusionBus.getInstance(CommentsActivity.this).sendMessage(message);
 	}
-	private class PublishCommentTask extends AsyncTask<Object, Object, Boolean>
-	{
-		private String	content;
+	
 
-		public PublishCommentTask( String content )
-		{
-			this.content = content;
-		}
-
-		@Override
-		protected void onPostExecute( Boolean result )
-		{
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			if (result)
-			{
-				mEditContent.setText(null);
-				Toast.makeText(CommentsActivity.this, R.string.string_comment_succ, Toast.LENGTH_LONG).show();
-				FetchCommentAsynTask task = new FetchCommentAsynTask(CommentsActivity.this);
-				task.execute();
-				mCommentsText.setText(String.valueOf(++mCommentNum));
-			}
-			else
-			{
-				Toast.makeText(CommentsActivity.this, R.string.string_comment_fail, Toast.LENGTH_LONG).show();
-			}
-
-		}
-
-		@Override
-		protected Boolean doInBackground( Object... params )
-		{
-			Boolean ret = false;
-			// CommentDao dao =
-			// CommentDao.getAdapterObject(CommentsActivity.this);
-			String user = "Comment";
-			String content = mEditContent.getText().toString();
-			EasyHttpClient client = null;
-			try
-			{
-				Map<String, String> headers = new HashMap<String, String>();
-				headers.put(AppConstants.HEADER_IMEI, AppPrefs.getInstance(CommentsActivity.this).getIMEI());
-				HttpPost request = HttpHelper.createHttpPost(AppConstants.ACTION_COMMENT_REC, null, headers);
-				NameValuePair nameValuePair1 = new BasicNameValuePair(AppConstants.HEADER_USER_ID, "1");
-				NameValuePair nameValuePair2 = new BasicNameValuePair(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID, String.valueOf(mRecID));
-				NameValuePair nameValuePair3 = new BasicNameValuePair(AppConstants.HEADER_COMMENT_CONTENT, content);
-				List list = new ArrayList();
-				list.add(nameValuePair1);
-				list.add(nameValuePair2);
-				list.add(nameValuePair3);
-				request.setEntity(new UrlEncodedFormEntity(list, HTTP.UTF_8));
-				client = HttpHelper.createHttpClient(false);
-				HttpResponse response = client.execute(request);
-				if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-				{
-					return true;
-				}
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				e.printStackTrace();
-			}
-			catch (ClientProtocolException e)
-			{
-				e.printStackTrace();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			finally
-			{
-				client.getConnectionManager().shutdown();
-			}
-			// ret = dao.insertComment(new Comment(mRecommendation.getId(),
-			// user, content, System.currentTimeMillis()));
-			return ret;
-		}
-
-	}
-
-	public void checkStatusCode( HttpResponse response )
-	{
-		if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
-		{
-			Log.d("wanxiang", "GET COMMENT failed. Error is " + response.getStatusLine().getStatusCode());
-		}
-		else
-		{
-			try
-			{
-				InputStream inputStream = response.getEntity().getContent();
-				CommentsParser parser = new CommentsParser(new String(IO.getStreamAsBytes(inputStream)));
-				ArrayList<Comment> rec = parser.parseCommentsFromResponse();
-				AppPrefs appPrefs = AppPrefs.getInstance(CommentsActivity.this);
-				CommentDao dao = CommentDao.getAdapterObject(CommentsActivity.this);
-
-				for (Comment r : rec)
-				{
-					dao.insertComment(r);
-				}
-
-				mCursor = dao.getAllCommentsByIdCursor(mRecID);
-
-			}
-			catch (IllegalStateException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 }

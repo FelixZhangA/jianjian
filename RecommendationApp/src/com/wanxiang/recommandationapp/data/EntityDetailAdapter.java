@@ -65,7 +65,7 @@ public class EntityDetailAdapter extends BaseAdapter {
 		final Recommendation r = getItem(arg0);
 		final ViewHolder holder = (ViewHolder) arg1.getTag();
 		holder.tvUserName.setText(mContext.getString(R.string.category_user,
-				r.getUserName()));
+				r.getUser().getName()));
 		holder.tvTime.setText(Utils.formatDate(mContext, r.getUpdateTime()));
 		holder.tvContent.setText(r.getDescription());
 		holder.tvPhraise.setText(String.valueOf(r.getPhraiseNum()));

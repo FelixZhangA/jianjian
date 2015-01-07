@@ -18,8 +18,6 @@ public class CategoryDataBean implements Serializable {
 	private boolean favorite;
 	@DatabaseField(columnName = "children")
 	private String childrenList;
-	@DatabaseField(columnName = "parent_id")
-	private long parentId;
 
 	@DatabaseField(columnName = "recent")
 	private boolean recent;
@@ -62,14 +60,6 @@ public class CategoryDataBean implements Serializable {
 
 	public void setChildrenList(String childrenList) {
 		this.childrenList = childrenList;
-	}
-
-	public long getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(long parentId) {
-		this.parentId = parentId;
 	}
 
 }

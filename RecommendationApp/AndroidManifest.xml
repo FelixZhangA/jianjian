@@ -9,7 +9,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -81,6 +82,16 @@
             android:configChanges="locale|orientation|keyboardHidden"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wanxiang.recommandationapp.ui.login.LoginActivity"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="com.wanxiang.recommandationapp.service.friends.UploadContactService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

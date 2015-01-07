@@ -90,11 +90,7 @@ public class CategoryListFragment extends Fragment implements
 			CategoryMessage message = new CategoryMessage(
 					HTTP_TYPE.HTTP_TYPE_GET);
 
-			message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
-			message.setParam(AppConstants.REQUEST_HEADER_CATEGORY_DEPTH,
-					String.valueOf(2));
-			message.addHeader(AppConstants.HEADER_IMEI,
-					AppPrefs.getInstance(getActivity()).getIMEI());
+			message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(getActivity()).getSessionId());
 			message.setFusionCallBack(new FusionCallBack() {
 
 				@Override
@@ -234,7 +230,7 @@ public class CategoryListFragment extends Fragment implements
 			if (mDetailList != null && mDetailList.size() > 0) {
 				if (mAdapter == null) {
 					for (Category catFav : mDetailList) {
-						catFav.setFavor(true);
+//						catFav.setFavor(true);
 					}
 					mAdapter = new CategoryDetailsAdapter(getActivity(),
 							mDetailList);
@@ -258,15 +254,15 @@ public class CategoryListFragment extends Fragment implements
 		// 全部
 		ArrayList<Category> all = mParentList.get(2).getChildrenList();
 
-		for (Category cat : all) {
-			for (Category tmp : favoriteList) {
-				if (tmp.getCagetoryId() == cat.getCagetoryId()) {
-					cat.setFavor(true);
-					break;
-				}
-			}
-			ret.add(cat);
-		}
+//		for (Category cat : all) {
+//			for (Category tmp : favoriteList) {
+//				if (tmp.getCagetoryId() == cat.getCagetoryId()) {
+//					cat.setFavor(true);
+//					break;
+//				}
+//			}
+//			ret.add(cat);
+//		}
 		return ret;
 	}
 }
