@@ -32,8 +32,8 @@ import com.wanxiang.recommandationapp.util.AppConstants;
 
 public class CategoryListFragment extends Fragment implements
 		OnItemClickListener, OnClickListener, OnItemSelectedListener {
-	private ListView mCategoryList;
-	private ListView mCagetoryDetailList;
+	private ListView mLikeList;
+	private ListView mOtherList;
 	private int mCurrentPos = 0;
 	private Button mJoinBtn;
 	private ArrayList<Category> mParentList = new ArrayList<Category>();
@@ -57,11 +57,11 @@ public class CategoryListFragment extends Fragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mCategoryList = (ListView) view.findViewById(R.id.lst_category);
-		mCategoryList.setOnItemClickListener(this);
-		mCategoryList.setOnItemSelectedListener(this);
-		mCagetoryDetailList = (ListView) view.findViewById(R.id.lst_detail);
-		mCagetoryDetailList.setOnItemClickListener(new OnItemClickListener() {
+		mLikeList = (ListView) view.findViewById(R.id.lst_like);
+		mLikeList.setOnItemClickListener(this);
+		mLikeList.setOnItemSelectedListener(this);
+		mOtherList = (ListView) view.findViewById(R.id.lst_other);
+		mOtherList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -85,7 +85,7 @@ public class CategoryListFragment extends Fragment implements
 		mParentList.clear();
 		final AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
 		long categoryUpdateTime = appPrefs.getCategoryUpdateTime();
-		if (System.currentTimeMillis() - categoryUpdateTime > DatabaseConstants.TWENTY_FOUR_HOUR) { // 取服务器数据
+		if (System.currentTimeMillis() - categoryUpdateTime > DatabaseConstants.TWENTY_FOUR_HOUR) { // 鍙栨湇鍔″櫒鏁版嵁
 
 			CategoryMessage message = new CategoryMessage(
 					HTTP_TYPE.HTTP_TYPE_GET);
@@ -97,7 +97,7 @@ public class CategoryListFragment extends Fragment implements
 				public void onFinish(FusionMessage msg) {
 					super.onFinish(msg);
 					handleFusionResponse(msg);
-					// 更新数据库
+					// 鏇存柊鏁版嵁搴�
 					FusionMessage addCategoryMsg = new FusionMessage(
 							"dbService", "addCategory");
 					addCategoryMsg.setParam(
@@ -108,7 +108,7 @@ public class CategoryListFragment extends Fragment implements
 						@Override
 						public void onFinish(FusionMessage msg) {
 							super.onFinish(msg);
-							// 更新日期
+							// 鏇存柊鏃ユ湡
 							appPrefs.setCategoryUpdateTime(System
 									.currentTimeMillis());
 						}
@@ -125,7 +125,7 @@ public class CategoryListFragment extends Fragment implements
 
 			});
 			FusionBus.getInstance(getActivity()).sendMessage(message);
-		} else // 取缓存数据
+		} else // 鍙栫紦瀛樻暟鎹�
 		{
 			FusionMessage message = new FusionMessage("dbService",
 					"queryCategory");
@@ -166,7 +166,7 @@ public class CategoryListFragment extends Fragment implements
 					mAdapter = new CategoryDetailsAdapter(getActivity(),
 							mDetailList);
 					mAdapter.setOnCategoryFavoriteListener(mListener);
-					mCagetoryDetailList.setAdapter(mAdapter);
+					mOtherList.setAdapter(mAdapter);
 				}
 				mAdapter.setCategoryList(mDetailList);
 				mAdapter.notifyDataSetChanged();
@@ -201,7 +201,7 @@ public class CategoryListFragment extends Fragment implements
 					mAdapter = new CategoryDetailsAdapter(getActivity(),
 							mDetailList);
 					mAdapter.setOnCategoryFavoriteListener(mListener);
-					mCagetoryDetailList.setAdapter(mAdapter);
+					mOtherList.setAdapter(mAdapter);
 				}
 				mAdapter.setCategoryList(mDetailList);
 				mAdapter.notifyDataSetChanged();
@@ -223,9 +223,9 @@ public class CategoryListFragment extends Fragment implements
 			mParentList.addAll(cat);
 			CategoryAdapter adapter = new CategoryAdapter(getActivity(), cat);
 
-			mCategoryList.setAdapter(adapter);
-			mCategoryList.requestFocusFromTouch();
-			mCategoryList.setItemChecked(0, true);
+			mLikeList.setAdapter(adapter);
+			mLikeList.requestFocusFromTouch();
+			mLikeList.setItemChecked(0, true);
 			mDetailList = mParentList.get(0).getChildrenList();
 			if (mDetailList != null && mDetailList.size() > 0) {
 				if (mAdapter == null) {
@@ -234,7 +234,7 @@ public class CategoryListFragment extends Fragment implements
 					}
 					mAdapter = new CategoryDetailsAdapter(getActivity(),
 							mDetailList);
-					mCagetoryDetailList.setAdapter(mAdapter);
+					mOtherList.setAdapter(mAdapter);
 					mAdapter.setOnCategoryFavoriteListener(mListener);
 				}
 				mAdapter.setCategoryList(mDetailList);
@@ -245,13 +245,13 @@ public class CategoryListFragment extends Fragment implements
 
 	private ArrayList<Category> getAllCategory() {
 		ArrayList<Category> ret = new ArrayList<Category>();
-		// 我喜欢的 我不喜欢的 全部
+		// 鎴戝枩娆㈢殑 鎴戜笉鍠滄鐨� 鍏ㄩ儴
 		ret.addAll(mParentList);
 
-		// 我喜欢的
+		// 鎴戝枩娆㈢殑
 		ArrayList<Category> favoriteList = mParentList.get(0).getChildrenList();
 
-		// 全部
+		// 鍏ㄩ儴
 		ArrayList<Category> all = mParentList.get(2).getChildrenList();
 
 //		for (Category cat : all) {

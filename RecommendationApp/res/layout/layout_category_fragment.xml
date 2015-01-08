@@ -2,24 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:background="@color/BG_WHITE"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BG_GRAY"
+        android:padding="10dp"
+        android:text="我加入的圈子" />
 
     <ListView
-        android:id="@+id/lst_category"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.25"
-        android:background="@color/light_grey"
+        android:id="@+id/lst_like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:focusable="true"
         android:listSelector="@drawable/category_item_selector" >
     </ListView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BG_GRAY"
+        android:padding="10dp"
+        android:text="其他圈子" />
+
     <ListView
-        android:id="@+id/lst_detail"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.75"
-        android:background="@color/BG_WHITE"
+        android:id="@+id/lst_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@drawable/kz_cell_topline"
         android:dividerHeight="1dp" >
     </ListView>
