@@ -14,7 +14,7 @@ import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.util.AppConstants;
 
 
-public class CategoryMessage extends JasonNetTaskMessage<ArrayList<Category>>
+public class CategoryMessage extends JasonNetTaskMessage<CategoryData>
 {
 
 	public CategoryMessage( com.wanxiang.recommandationapp.http.impl.NetTaskMessage.HTTP_TYPE httpType )
@@ -25,185 +25,43 @@ public class CategoryMessage extends JasonNetTaskMessage<ArrayList<Category>>
 	}
 
 	@Override
-	protected ArrayList<Category> parseNetTaskResponse( JSONObject jsonObject ) throws JSONException
+	protected CategoryData parseNetTaskResponse( JSONObject jsonObject ) throws JSONException
 	{
-		ArrayList<Category> ret = new ArrayList<Category>();
-		JSONArray array = jsonObject.getJSONArray(AppConstants.RESPONSE_HEADER_DATA);
-		for (int i = 0; i < array.length(); i++)
+		CategoryData ret = new CategoryData();
+		JSONObject data = jsonObject.getJSONObject(AppConstants.RESPONSE_HEADER_DATA);
+		JSONArray likeCategoryArray = data.getJSONArray(AppConstants.RESPONSE_HEADER_LIKE_LIST);
+		JSONArray otherCategoryArray = data.getJSONArray(AppConstants.RESPONSE_HEADER_OTHER_LIST);
+
+		ArrayList<Category> lstLike = new ArrayList<Category>();
+		for (int i = 0; i < likeCategoryArray.length(); i++)
 		{
-			JSONObject tmp = (JSONObject)array.get(i);
-			Category r = translate(tmp);
-			if (r != null && !TextUtils.isEmpty(r.getCategoryName()))
+			JSONObject tmp = (JSONObject)likeCategoryArray.get(i);
+			Category cat = new Category();
+			cat.setCategoryId(tmp.getLong(AppConstants.RESPONSE_HEADER_ID));
+			cat.setCategoryName(tmp.getString(AppConstants.RESPONSE_HEADER_NAME));
+			if (cat != null && !TextUtils.isEmpty(cat.getCategoryName()))
 			{
-				ret.add(r);
+				lstLike.add(cat);
 			}
 		}
-		return ret;
-
-	}
-/*
- * data": [
-        {
-            "id": 1,
-            "name": "我喜欢",
-            "children": [
-                {
-                    "id": 10001,
-                    "name": "追剧",
-                    "children": null
-                },
-                {
-                    "id": 10005,
-                    "name": "淘智能设备",
-                    "children": null
-                },
-                {
-                    "id": 10002,
-                    "name": "玩游戏",
-                    "children": null
-                },
-                {
-                    "id": 10006,
-                    "name": "炒股",
-                    "children": null
-                },
-                {
-                    "id": 10007,
-                    "name": "听音乐",
-                    "children": null
-                },
-                {
-                    "id": 10008,
-                    "name": "读书",
-                    "children": null
-                },
-                {
-                    "id": 10003,
-                    "name": "下应用",
-                    "children": null
-                },
-                {
-                    "id": 10000,
-                    "name": "看电影",
-                    "children": null
-                },
-                {
-                    "id": 10004,
-                    "name": "爱美丽",
-                    "children": null
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "我不喜欢",
-            "children": []
-        },
-        {
-            "id": 3,
-            "name": "全部",
-            "children": [
-                {
-                    "id": 10000,
-                    "name": "看电影",
-                    "children": null
-                },
-                {
-                    "id": 10001,
-                    "name": "追剧",
-                    "children": null
-                },
-                {
-                    "id": 10002,
-                    "name": "玩游戏",
-                    "children": null
-                },
-                {
-                    "id": 10003,
-                    "name": "下应用",
-                    "children": null
-                },
-                {
-                    "id": 10004,
-                    "name": "爱美丽",
-                    "children": null
-                },
-                {
-                    "id": 10005,
-                    "name": "淘智能设备",
-                    "children": null
-                },
-                {
-                    "id": 10006,
-                    "name": "炒股",
-                    "children": null
-                },
-                {
-                    "id": 10007,
-                    "name": "听音乐",
-                    "children": null
-                },
-                {
-                    "id": 10008,
-                    "name": "读书",
-                    "children": null
-                },
-                {
-                    "id": 10009,
-                    "name": "看网络小说",
-                    "children": null
-                },
-                {
-                    "id": 10010,
-                    "name": "看动漫",
-                    "children": null
-                },
-                {
-                    "id": 10011,
-                    "name": "下馆子",
-                    "children": null
-                },
-                {
-                    "id": 10012,
-                    "name": "旅行游玩",
-                    "children": null
-                },
-                {
-                    "id": 10013,
-                    "name": "看演出",
-                    "children": null
-                }
-            ]
-        }
-    ]*/
-	private Category translate( JSONObject jsonObject )
-	{
-		Category ret = new Category();
-		try
+		ret.setListLike(lstLike);
+		
+		ArrayList<Category> lstOther = new ArrayList<Category>();
+		for (int i = 0; i < otherCategoryArray.length(); i++)
 		{
-			ret.setCategoryId(jsonObject.getLong(AppConstants.RESPONSE_HEADER_ID));
-			ret.setCategoryName(jsonObject.getString(AppConstants.RESPONSE_HEADER_NAME));
-
-			ArrayList<Category> childList = new ArrayList<Category>();
-			JSONArray array = jsonObject.getJSONArray(AppConstants.RESPONSE_HEADER_CATEGORY_CHILDREN);
-			if (array != null && array.length() > 0)
+			JSONObject tmp = (JSONObject)otherCategoryArray.get(i);
+			Category cat = new Category();
+			cat.setCategoryId(tmp.getLong(AppConstants.RESPONSE_HEADER_ID));
+			cat.setCategoryName(tmp.getString(AppConstants.RESPONSE_HEADER_NAME));
+			if (cat != null && !TextUtils.isEmpty(cat.getCategoryName()))
 			{
-				for (int i = 0; i < array.length(); i++)
-				{
-					JSONObject tmp = (JSONObject)array.get(i);
-					Category child = translate(tmp);
-					childList.add(child);
-				}
+				lstOther.add(cat);
 			}
-			
-			ret.setChildrenList(childList);
 		}
-		catch (JSONException e)
-		{
-			e.printStackTrace();
-		}
-
+		ret.setListOther(lstOther);
+		
 		return ret;
+
 	}
 
 }

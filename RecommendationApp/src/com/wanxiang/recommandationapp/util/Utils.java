@@ -78,9 +78,10 @@ public class Utils
 		Recommendation ret = new Recommendation();
 		try
 		{
+			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_ID));
 			if (obj.has(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID))
 			{
-				ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
+				ret.setContentId(obj.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
 			}
 			
 			ret.setEntityName(obj.getString(AppConstants.RESPONSE_HEADER_ENTITY_NAME));
@@ -117,7 +118,8 @@ public class Utils
 		AskRecommendation ret = new AskRecommendation();
 		try
 		{
-			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
+			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_ID));
+			ret.setContentId(obj.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
 			ret.setUpdateTime(obj.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
 			ret.setCategoryName(obj.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
 			if (obj.has(AppConstants.RESPONSE_HEADER_CATEGORY_ID))

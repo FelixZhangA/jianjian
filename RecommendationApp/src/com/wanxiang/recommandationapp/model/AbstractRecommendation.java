@@ -10,6 +10,7 @@ import com.wanxiang.recommandationapp.util.AppConstants;
 public class AbstractRecommendation implements Serializable {
 	public int content_type;
 	private long id;
+	private long contentId;
 	private long updateTime;
 	private User user;
 	private long userId;
@@ -49,6 +50,14 @@ public class AbstractRecommendation implements Serializable {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public long getContentId() {
+		return contentId;
+	}
+
+	public void setContentId(long id) {
+		this.contentId = id;
 	}
 
 	public long getId() {

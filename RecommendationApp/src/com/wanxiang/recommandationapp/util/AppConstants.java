@@ -4,17 +4,18 @@ public class AppConstants
 {
     public static final String RECOMMENDATION = "recommendation";
     public static final String INTENT_CATEGORY = "categoryName";
-    public static final String HEADER_REC_ID = "tuijianId";
+    public static final String HEADER_REC_ID = "recommendId";
 	public static final String HEADER_USER_ID = "userId";
 	public static final String HEADER_CATEGORY = "categoryName";
 	public static final String HEADER_ENTITY = "entityName";
-	public static final String HEADER_PAGE_SIZE = "pageSize";
+	public static final String HEADER_PAGE_SIZE = "size";
+	public static final String HEADER_NEXT_ID = "nextId";
 	public static final String HEADER_PAGE_INDEX = "pageIndex";
 	public static final String HEADER_DESCRIPTION = "description";
 	public static final String HEADER_IMEI = "imei";
 	public static final String HEADER_IS_NEW = "isNew";
 	public static final String HEADER_CANCEL_PRAISE = "cancel";
-	public static final String HEADER_COMMENT_CONTENT = "comment";
+	public static final String HEADER_COMMENT_CONTENT = "content";
 	public static final String HEADER_LEVEL = "level";
 	public static final String HEADER_NEEDID = "needId";
 	public static final String HEADER_PHONE = "phone";
@@ -35,9 +36,13 @@ public class AppConstants
 	public static final String RESPONSE_HEADER_ERROR = "error";
 	public static final String RESPONSE_HEADER_DATA = "data";
 	public static final String RESPONSE_HEADER_RECOMMENDATION_ID = "contentId";
+	public static final String RESPONSE_HEADER_OWNER_ID = "ownerId";
+
 	public static final String RESPONSE_HEADER_UPDATE_TIME = "updateTime";
 	public static final String RESPONSE_HEADER_USER_ID = "userId";
 	public static final String RESPONSE_HEADER_REPLYED_USER_ID = "replyedUserId";
+	public static final String RESPONSE_HEADER_LIKE_LIST = "likeList";
+	public static final String RESPONSE_HEADER_OTHER_LIST = "otherList";
 
 	public static final String RESPONSE_HEADER_USER_NAME = "userName";
 	public static final String RESPONSE_HEADER_CATEGORY_ID = "categoryId";
@@ -59,12 +64,9 @@ public class AppConstants
 
 	public static final String ACTION_PUBLISH_REC = "PublishTuijian";
 	public static final String ACTION_PUBLISH_ASK_REC = "PublishNeed";
-	public static final String ACTION_SHOW_CATEGORY_DYNAMIC  = "GetCategoryFeedList";
 	public static final String ACTION_PRAISE_REC = "PraiseTuijian";
 	public static final String ACTION_COMMENT_REC = "CommentTuijian";
 
-	public static final String ACTION_SHOW_REC_DETAIL = "GetTuijianDetail";
-	public static final String ACTION_SHOW_ENTITY = "GetEntityFeedList";
 	public static final String ACTION_LIKE_CATEGORY = "LikeCategory";
 	public static final String ACTION_GET_NEED_MATCH_LIST = "GetNeedMatchList";
 	
@@ -75,6 +77,9 @@ public class AppConstants
 	public static final String ACTION_CONTACTS_UPLOAD = "contacts/upload";
 	public static final String ACTION_SHOW_REC_LIST = "feed/list";
 	public static final String ACTION_SHOW_CATEGORY = "category/list";
+	public static final String ACTION_SHOW_CATEGORY_DYNAMIC  = "feed/categorylist";
+	public static final String ACTION_SHOW_REC_DETAIL = "recommend/detail";
+	public static final String ACTION_SHOW_ENTITY = "feed/entitylist";
 
 
 	public static final int RECOMMEDATION_TYPE = 1;

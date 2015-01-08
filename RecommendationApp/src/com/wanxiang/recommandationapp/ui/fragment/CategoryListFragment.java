@@ -26,18 +26,19 @@ import com.wanxiang.recommandationapp.data.DatabaseConstants;
 import com.wanxiang.recommandationapp.http.impl.NetTaskMessage.HTTP_TYPE;
 import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.persistent.AppPrefs;
+import com.wanxiang.recommandationapp.service.category.CategoryData;
 import com.wanxiang.recommandationapp.service.category.CategoryMessage;
 import com.wanxiang.recommandationapp.ui.CategoryDetailsActivity;
+import com.wanxiang.recommandationapp.ui.widget.ListViewForScrollView;
 import com.wanxiang.recommandationapp.util.AppConstants;
 
-public class CategoryListFragment extends Fragment implements
-		OnItemClickListener, OnClickListener, OnItemSelectedListener {
-	private ListView mLikeList;
-	private ListView mOtherList;
+public class CategoryListFragment extends Fragment {
+	private ListViewForScrollView mLikeList;
+	private ListViewForScrollView mOtherList;
 	private int mCurrentPos = 0;
 	private Button mJoinBtn;
-	private ArrayList<Category> mParentList = new ArrayList<Category>();
-	private ArrayList<Category> mDetailList = new ArrayList<Category>();
+	private ArrayList<Category> mCategoryLikeList = new ArrayList<Category>();
+	private ArrayList<Category> mCategoryOtherList = new ArrayList<Category>();
 	private CategoryDetailsAdapter mAdapter;
 	private OnChannelFavioratedListener mListener = new OnChannelFavioratedListener() {
 
@@ -57,10 +58,24 @@ public class CategoryListFragment extends Fragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mLikeList = (ListView) view.findViewById(R.id.lst_like);
-		mLikeList.setOnItemClickListener(this);
-		mLikeList.setOnItemSelectedListener(this);
-		mOtherList = (ListView) view.findViewById(R.id.lst_other);
+		mLikeList = (ListViewForScrollView) view.findViewById(R.id.lst_like);
+		mLikeList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent = new Intent(getActivity(),
+						CategoryDetailsActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(AppConstants.INTENT_CATEGORY,
+						mCategoryLikeList.get(arg2));
+				intent.putExtras(bundle);
+				intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intent);
+			}
+
+		});
+		mOtherList = (ListViewForScrollView) view.findViewById(R.id.lst_other);
 		mOtherList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -70,7 +85,7 @@ public class CategoryListFragment extends Fragment implements
 						CategoryDetailsActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable(AppConstants.INTENT_CATEGORY,
-						mDetailList.get(arg2));
+						mCategoryOtherList.get(arg2));
 				intent.putExtras(bundle);
 				intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				startActivity(intent);
@@ -82,22 +97,23 @@ public class CategoryListFragment extends Fragment implements
 	}
 
 	private void startQuery() {
-		mParentList.clear();
+		mCategoryLikeList.clear();
 		final AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
 		long categoryUpdateTime = appPrefs.getCategoryUpdateTime();
-		if (System.currentTimeMillis() - categoryUpdateTime > DatabaseConstants.TWENTY_FOUR_HOUR) { // 鍙栨湇鍔″櫒鏁版嵁
+		if (true) {// (System.currentTimeMillis() - categoryUpdateTime >
+					// DatabaseConstants.TWENTY_FOUR_HOUR) {
 
 			CategoryMessage message = new CategoryMessage(
 					HTTP_TYPE.HTTP_TYPE_GET);
 
-			message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(getActivity()).getSessionId());
+			message.setParam(AppConstants.HEADER_TOKEN,
+					AppPrefs.getInstance(getActivity()).getSessionId());
 			message.setFusionCallBack(new FusionCallBack() {
 
 				@Override
 				public void onFinish(FusionMessage msg) {
 					super.onFinish(msg);
 					handleFusionResponse(msg);
-					// 鏇存柊鏁版嵁搴�
 					FusionMessage addCategoryMsg = new FusionMessage(
 							"dbService", "addCategory");
 					addCategoryMsg.setParam(
@@ -108,7 +124,6 @@ public class CategoryListFragment extends Fragment implements
 						@Override
 						public void onFinish(FusionMessage msg) {
 							super.onFinish(msg);
-							// 鏇存柊鏃ユ湡
 							appPrefs.setCategoryUpdateTime(System
 									.currentTimeMillis());
 						}
@@ -125,8 +140,7 @@ public class CategoryListFragment extends Fragment implements
 
 			});
 			FusionBus.getInstance(getActivity()).sendMessage(message);
-		} else // 鍙栫紦瀛樻暟鎹�
-		{
+		} else {
 			FusionMessage message = new FusionMessage("dbService",
 					"queryCategory");
 			message.setParam(DatabaseConstants.MESSAGE_QUERY,
@@ -150,119 +164,55 @@ public class CategoryListFragment extends Fragment implements
 
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		if (arg0.getId() == R.id.lst_category) {
-			View lastClickView = arg0.getChildAt(mCurrentPos);
-			if (lastClickView != null) {
-				lastClickView
-						.setBackgroundResource(R.drawable.category_item_background);
-			}
-			arg1.setBackgroundResource(R.drawable.category_item_background_selected);
-			mCurrentPos = arg2;
-			mDetailList = mParentList.get(arg2).getChildrenList();
-			if (mDetailList != null) {
-				if (mAdapter == null) {
-					mAdapter = new CategoryDetailsAdapter(getActivity(),
-							mDetailList);
-					mAdapter.setOnCategoryFavoriteListener(mListener);
-					mOtherList.setAdapter(mAdapter);
-				}
-				mAdapter.setCategoryList(mDetailList);
-				mAdapter.notifyDataSetChanged();
-
-			}
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-
-	}
-
 	public interface OnChannelFavioratedListener {
 		public void onChannelFaviorated();
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-			long arg3) {
-		if (arg0.getId() == R.id.lst_category) {
-			View lastClickView = arg0.getChildAt(mCurrentPos);
-			if (lastClickView != null) {
-				lastClickView
-						.setBackgroundResource(R.drawable.category_item_background);
-			}
-			arg1.setBackgroundResource(R.drawable.category_item_background_selected);
-			mCurrentPos = arg2;
-			mDetailList = mParentList.get(arg2).getChildrenList();
-			if (mDetailList != null) {
-				if (mAdapter == null) {
-					mAdapter = new CategoryDetailsAdapter(getActivity(),
-							mDetailList);
-					mAdapter.setOnCategoryFavoriteListener(mListener);
-					mOtherList.setAdapter(mAdapter);
-				}
-				mAdapter.setCategoryList(mDetailList);
-				mAdapter.notifyDataSetChanged();
-
-			}
-		}
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void handleFusionResponse(FusionMessage message) {
-		ArrayList<Category> cat = (ArrayList<Category>) message
-				.getResponseData();
-		if (cat != null && cat.size() > 0) {
-			mParentList.addAll(cat);
-			CategoryAdapter adapter = new CategoryAdapter(getActivity(), cat);
+		CategoryData cat = (CategoryData) message.getResponseData();
+		if (cat != null) {
+			mCategoryLikeList.clear();
+			mCategoryLikeList = cat.getListLike();
+			CategoryAdapter adapter = new CategoryAdapter(getActivity(),
+					mCategoryLikeList);
 
 			mLikeList.setAdapter(adapter);
-			mLikeList.requestFocusFromTouch();
-			mLikeList.setItemChecked(0, true);
-			mDetailList = mParentList.get(0).getChildrenList();
-			if (mDetailList != null && mDetailList.size() > 0) {
-				if (mAdapter == null) {
-					for (Category catFav : mDetailList) {
-//						catFav.setFavor(true);
-					}
-					mAdapter = new CategoryDetailsAdapter(getActivity(),
-							mDetailList);
-					mOtherList.setAdapter(mAdapter);
-					mAdapter.setOnCategoryFavoriteListener(mListener);
-				}
-				mAdapter.setCategoryList(mDetailList);
-				mAdapter.notifyDataSetChanged();
+
+			mCategoryOtherList.clear();
+			mCategoryOtherList = cat.getListOther();
+			if (mAdapter == null) {
+				mAdapter = new CategoryDetailsAdapter(getActivity(),
+						mCategoryOtherList);
+				mOtherList.setAdapter(mAdapter);
+				mAdapter.setOnCategoryFavoriteListener(mListener);
 			}
+			mAdapter.setCategoryList(mCategoryOtherList);
+			mAdapter.notifyDataSetChanged();
+
 		}
 	}
 
 	private ArrayList<Category> getAllCategory() {
 		ArrayList<Category> ret = new ArrayList<Category>();
 		// 鎴戝枩娆㈢殑 鎴戜笉鍠滄鐨� 鍏ㄩ儴
-		ret.addAll(mParentList);
+		ret.addAll(mCategoryLikeList);
 
 		// 鎴戝枩娆㈢殑
-		ArrayList<Category> favoriteList = mParentList.get(0).getChildrenList();
+		ArrayList<Category> favoriteList = mCategoryLikeList.get(0)
+				.getChildrenList();
 
 		// 鍏ㄩ儴
-		ArrayList<Category> all = mParentList.get(2).getChildrenList();
+		ArrayList<Category> all = mCategoryLikeList.get(2).getChildrenList();
 
-//		for (Category cat : all) {
-//			for (Category tmp : favoriteList) {
-//				if (tmp.getCagetoryId() == cat.getCagetoryId()) {
-//					cat.setFavor(true);
-//					break;
-//				}
-//			}
-//			ret.add(cat);
-//		}
+		// for (Category cat : all) {
+		// for (Category tmp : favoriteList) {
+		// if (tmp.getCagetoryId() == cat.getCagetoryId()) {
+		// cat.setFavor(true);
+		// break;
+		// }
+		// }
+		// ret.add(cat);
+		// }
 		return ret;
 	}
 }

@@ -60,7 +60,7 @@ public class CommentsListAdapter extends BaseAdapter
 		
 		Comment comment = mList.get(position);
 		ViewHolder holder = (ViewHolder)convertView.getTag();
-		holder.tvName.setText(comment.getUserName());
+		holder.tvName.setText(comment.getUser().getName());
 		holder.tvContent.setText(comment.getContent());
 		long date = comment.getCommentDate();
 		holder.tvDate.setText(Utils.formatDate(mContext, date));

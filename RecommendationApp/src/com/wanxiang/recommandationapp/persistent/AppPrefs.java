@@ -56,12 +56,12 @@ public class AppPrefs extends SharedPreferencesProvider {
 		set(UPDATE_TIME, updateTime);
 	}
 
-	public long getOdestUpdateTime() {
-		return get(OLDEST_UPDATE_TIME, System.currentTimeMillis());
+	public long getLastRecommendationId() {
+		return get(OLDEST_UPDATE_TIME, 2147483647L);
 	}
 
-	public void setOdestUpdateTime(long updateTime) {
-		set(OLDEST_UPDATE_TIME, updateTime);
+	public void setLastRecommendationId(long id) {
+		set(OLDEST_UPDATE_TIME, id);
 	}
 
 	public String getIMEI() {

@@ -101,7 +101,7 @@ public class CategoryDetailsActivity extends Activity implements
 				+ "</b>"));
 
 		initUI();
-		startQuery(System.currentTimeMillis(), true);
+		startQuery(true);
 	}
 
 	private void initUI() {
@@ -132,12 +132,9 @@ public class CategoryDetailsActivity extends Activity implements
 						long updateTime = System.currentTimeMillis() / 1000;
 
 						if (mDynamicListView.isFooterShown()) {
-							updateTime = AppPrefs.getInstance(
-									CategoryDetailsActivity.this)
-									.getOdestUpdateTime();
-							startQuery(updateTime, false);
+							startQuery(false);
 						} else {
-							startQuery(updateTime, true);
+							startQuery(true);
 
 						}
 
@@ -171,24 +168,19 @@ public class CategoryDetailsActivity extends Activity implements
 	// startQuery(System.currentTimeMillis());
 	// }
 
-	private void startQuery(long updateTime, final boolean isPullDown) {
+	private void startQuery(final boolean isPullDown) {
+		final AppPrefs appPrefs = AppPrefs
+				.getInstance(CategoryDetailsActivity.this);
 		CategoryDetailDynamicMessage message = new CategoryDetailDynamicMessage(
 				HTTP_TYPE.HTTP_TYPE_GET);
 
-		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
-		if (isPullDown) {
-			mListRec.clear();
-			mPageIndex = 1;
-			message.setParam(AppConstants.HEADER_PAGE_INDEX, String.valueOf(1));
-		} else {
-			message.setParam(AppConstants.HEADER_PAGE_INDEX,
-					String.valueOf(mPageIndex));
+		if (!isPullDown) {
+			message.setParam(AppConstants.HEADER_NEXT_ID,
+					String.valueOf(appPrefs.getLastRecommendationId()));
 		}
 		message.setParam(AppConstants.RESPONSE_HEADER_CATEGORY_ID,
 				String.valueOf(mCategory.getCagetoryId()));
-		message.addHeader(AppConstants.HEADER_IMEI,
-				AppPrefs.getInstance(CategoryDetailsActivity.this).getIMEI());
-
+		message.setParam(AppConstants.HEADER_TOKEN, appPrefs.getSessionId());
 		message.setFusionCallBack(new FusionCallBack() {
 
 			@Override
@@ -200,13 +192,12 @@ public class CategoryDetailsActivity extends Activity implements
 				}
 				mListRec.addAll((ArrayList<AbstractRecommendation>) msg
 						.getResponseData());
-				AppPrefs appPrefs = AppPrefs
-						.getInstance(CategoryDetailsActivity.this);
+
 				if (mListRec != null && mListRec.size() > 0) {
 					fillData();
 					// Get the last recommendation, which date is the oldest.
-					appPrefs.setOdestUpdateTime(mListRec.get(
-							mListRec.size() - 1).getUpdateTime() - 1);
+					appPrefs.setLastRecommendationId(mListRec.get(
+							mListRec.size() - 1).getId());
 				}
 				mDynamicListView.onRefreshComplete();
 				mPageIndex++;

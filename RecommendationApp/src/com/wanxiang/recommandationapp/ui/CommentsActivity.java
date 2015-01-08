@@ -1,35 +1,15 @@
 package com.wanxiang.recommandationapp.ui;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,13 +26,8 @@ import com.wanxiang.recommandationapp.R;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
-import com.wanxiang.recommandationapp.data.CommentDao;
-import com.wanxiang.recommandationapp.data.CommentsAdapter;
 import com.wanxiang.recommandationapp.data.CommentsListAdapter;
 import com.wanxiang.recommandationapp.data.RecommendationDetail;
-import com.wanxiang.recommandationapp.http.CommentsParser;
-import com.wanxiang.recommandationapp.http.EasyHttpClient;
-import com.wanxiang.recommandationapp.http.HttpHelper;
 import com.wanxiang.recommandationapp.http.impl.NetTaskMessage.HTTP_TYPE;
 import com.wanxiang.recommandationapp.model.Comment;
 import com.wanxiang.recommandationapp.model.Entity;
@@ -62,7 +37,6 @@ import com.wanxiang.recommandationapp.service.homepage.LikeRecommendationMessage
 import com.wanxiang.recommandationapp.service.publish.PublishCommentsMessage;
 import com.wanxiang.recommandationapp.service.recommend.RecommendationDetailMessage;
 import com.wanxiang.recommandationapp.util.AppConstants;
-import com.wanxiang.recommandationapp.util.IO;
 import com.wanxiang.recommandationapp.util.Utils;
 
 
@@ -70,7 +44,6 @@ public class CommentsActivity extends Activity implements OnClickListener
 {
 	private Recommendation			mRecommendation;
 	private PullToRefreshListView	mListView;
-	private CommentsAdapter			mAdapter;
 	private Comment					mReplyComment;
 	private EditText				mEditContent;
 	private Button					mBtnSend;
@@ -255,9 +228,8 @@ public class CommentsActivity extends Activity implements OnClickListener
 	private void getComments()
 	{
 		RecommendationDetailMessage message = new RecommendationDetailMessage(HTTP_TYPE.HTTP_TYPE_GET);
-		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
-		message.setParam(AppConstants.HEADER_REC_ID, String.valueOf(mRecommendation.getId()));
-		message.addHeader(AppConstants.HEADER_IMEI, AppPrefs.getInstance(this).getIMEI());
+		message.setParam(AppConstants.HEADER_REC_ID, String.valueOf(mRecommendation.getContentId()));
+		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(this).getSessionId());
 
 		message.setFusionCallBack(new FusionCallBack()
 		{
@@ -280,7 +252,7 @@ public class CommentsActivity extends Activity implements OnClickListener
 							Comment replyComment = adapter.getItem(arg2-1);
 							if (replyComment != null)
 							{
-								mEditContent.setHint(getString(R.string.string_send_hint, replyComment.getUserName()));
+								mEditContent.setHint(getString(R.string.string_send_hint, replyComment.getUser().getName()));
 								mReplyComment = replyComment;
 							}
 						}

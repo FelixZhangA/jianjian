@@ -66,39 +66,38 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 				// Do work to refresh the list here.
 				// new FetchRecommendationAsyncTask(getActivity()).execute();
 
-				long updateTime = System.currentTimeMillis() / 1000;
-
 				if (mListView.isFooterShown())
 				{
-					updateTime = AppPrefs.getInstance(getActivity()).getOdestUpdateTime();
-					startQuery(updateTime, false);
+					startQuery(false);
 				} else
 				{
-					startQuery(updateTime, true);
+					startQuery(true);
 				}
 
 			}
 		});
 
-		startQuery(System.currentTimeMillis(), true);
+		startQuery(true);
 
 	}
 
-	private void startQuery( long updateTime, final boolean isPullDown )
+	private void startQuery(final boolean isPullDown )
 	{
+		final AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
+
 		HomePageMessage message = new HomePageMessage(HTTP_TYPE.HTTP_TYPE_GET);
 
-		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
 		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(getActivity()).getSessionId());
 
 		if (isPullDown)
 		{
 			mPageIndex = 1;
 			mListRec.clear();
-			message.setParam(AppConstants.HEADER_PAGE_INDEX, String.valueOf(0));
 		} else
 		{
-			message.setParam(AppConstants.HEADER_PAGE_INDEX, String.valueOf(mPageIndex));
+			long lastId = appPrefs.getLastRecommendationId();
+			message.setParam(AppConstants.HEADER_NEXT_ID, lastId);
+
 		}
 		message.addHeader(AppConstants.HEADER_IMEI, AppPrefs.getInstance(getActivity()).getIMEI());
 
@@ -111,12 +110,11 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 				super.onFinish(msg);
 				mListRec.addAll((ArrayList<AbstractRecommendation>)msg.getResponseData());
 
-				AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
 				if (mListRec != null && mListRec.size() > 0)
 				{
 					fillData();
 					// Get the last recommendation, which date is the oldest.
-					appPrefs.setOdestUpdateTime(mListRec.get(mListRec.size() - 1).getUpdateTime() - 1);
+					appPrefs.setLastRecommendationId(mListRec.get(mListRec.size() - 1).getId());
 				}
 				mListView.onRefreshComplete();
 				mPageIndex++;

@@ -159,7 +159,7 @@ public class RecommendationDao implements SQLiteDatabaseInterface
 			return null;
 		}
 		final Recommendation r = new Recommendation();
-		r.setId(c.getLong(c.getColumnIndex(DatabaseConstants.COLUMN_RECOMMANDATION_UID)));
+		r.setContentId(c.getLong(c.getColumnIndex(DatabaseConstants.COLUMN_RECOMMANDATION_UID)));
 		r.setEntityName(c.getString(c.getColumnIndex(DatabaseConstants.COLUMN_ENTITY)));
 		r.setCategoryName(c.getString(c.getColumnIndex(DatabaseConstants.COLUMN_CATEGORY)));
 		r.setDescription(c.getString(c.getColumnIndex(DatabaseConstants.COLUMN_CONTENT)));

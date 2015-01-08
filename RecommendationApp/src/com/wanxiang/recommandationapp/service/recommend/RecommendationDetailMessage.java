@@ -33,7 +33,7 @@ public class RecommendationDetailMessage extends JasonNetTaskMessage<Recommendat
 			ret.setDescription(data.getString(AppConstants.RESPONSE_HEADER_CONTENT));
 			ret.setPhraiseCount(data.getInt(AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
 			ret.setCommentCount(data.getInt(AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
-			ret.setUserName(data.getString(AppConstants.RESPONSE_HEADER_USER_NAME));
+			ret.setUser(data.getJSONObject(AppConstants.HEADER_USER));
 			ret.setCategoryName(data.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
 
 			
@@ -73,8 +73,8 @@ public class RecommendationDetailMessage extends JasonNetTaskMessage<Recommendat
 			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_ID));
 			ret.setCommentContent(obj.getString(AppConstants.HEADER_COMMENT_CONTENT));
 			ret.setCommentDate(obj.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
-			ret.setUserName(obj.getString(AppConstants.RESPONSE_HEADER_USER_NAME));
-			ret.setRecommendationId(obj.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
+			ret.setUser(obj.getJSONObject(AppConstants.HEADER_USER));
+			ret.setRecommendationId(obj.getLong(AppConstants.RESPONSE_HEADER_OWNER_ID));
 			ret.setReplyedUserId(obj.getLong(AppConstants.RESPONSE_HEADER_REPLYED_USER_ID));
 		}
 		catch (JSONException e)
