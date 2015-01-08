@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 
 public class TextMaxLengthWatcher implements TextWatcher 
 {

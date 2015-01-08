@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.model.AbstractRecommendation;
 import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.model.Entity;

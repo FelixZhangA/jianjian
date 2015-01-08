@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 
 
 public class MyProfileFragment extends Fragment

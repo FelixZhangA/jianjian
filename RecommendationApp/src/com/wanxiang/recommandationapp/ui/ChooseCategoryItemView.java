@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 
 
 public class ChooseCategoryItemView extends RelativeLayout

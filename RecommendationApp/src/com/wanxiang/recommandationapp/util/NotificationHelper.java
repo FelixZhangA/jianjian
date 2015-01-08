@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 
 
 public class NotificationHelper

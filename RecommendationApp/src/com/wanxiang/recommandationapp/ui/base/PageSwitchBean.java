@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.Anim;
 
 /**

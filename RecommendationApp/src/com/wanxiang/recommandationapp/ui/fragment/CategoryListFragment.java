@@ -16,7 +16,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;

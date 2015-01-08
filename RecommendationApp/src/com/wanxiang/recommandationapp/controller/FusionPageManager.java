@@ -23,7 +23,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.ui.base.IPageSwitcher;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.onFragmentFinishListener;

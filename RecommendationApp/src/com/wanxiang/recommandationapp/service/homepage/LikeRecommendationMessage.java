@@ -22,8 +22,8 @@ public class LikeRecommendationMessage extends JasonNetTaskMessage<Integer>
 	{
 		if (jsonObject != null)
 		{
-			String error = jsonObject.getString(AppConstants.RESPONSE_HEADER_ERROR);
-			if (TextUtils.isEmpty(error))
+			boolean isSuccess = jsonObject.getBoolean(AppConstants.RESPONSE_HEADER_SUCCESS);
+			if (isSuccess)
 			{
 				return 0;
 			}

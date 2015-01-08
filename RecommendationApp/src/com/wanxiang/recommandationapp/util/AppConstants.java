@@ -32,7 +32,7 @@ public class AppConstants
 	
 	public static final String RESPONSE_HEADER_COMMENT = "comments";
 	public static final String RESPONSE_HEADER_ID = "id";
-
+	public static final String RESPONSE_HEADER_SUCCESS = "success";
 	public static final String RESPONSE_HEADER_ERROR = "error";
 	public static final String RESPONSE_HEADER_DATA = "data";
 	public static final String RESPONSE_HEADER_RECOMMENDATION_ID = "contentId";
@@ -64,7 +64,6 @@ public class AppConstants
 
 	public static final String ACTION_PUBLISH_REC = "PublishTuijian";
 	public static final String ACTION_PUBLISH_ASK_REC = "PublishNeed";
-	public static final String ACTION_PRAISE_REC = "PraiseTuijian";
 	public static final String ACTION_COMMENT_REC = "CommentTuijian";
 
 	public static final String ACTION_LIKE_CATEGORY = "LikeCategory";
@@ -80,7 +79,7 @@ public class AppConstants
 	public static final String ACTION_SHOW_CATEGORY_DYNAMIC  = "feed/categorylist";
 	public static final String ACTION_SHOW_REC_DETAIL = "recommend/detail";
 	public static final String ACTION_SHOW_ENTITY = "feed/entitylist";
-
+	public static final String ACTION_PRAISE_REC = "recommend/praise";
 
 	public static final int RECOMMEDATION_TYPE = 1;
 	public static final int ASK_RECOMMEDATION_TYPE = 2;

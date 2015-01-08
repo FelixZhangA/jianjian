@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.persistent.AppPrefs;
 import com.wanxiang.recommandationapp.ui.login.LoginActivity;
 

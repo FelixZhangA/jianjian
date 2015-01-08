@@ -17,7 +17,7 @@ import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import com.alibaba.fastjson.JSON;
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.model.AskRecommendation;
 import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.model.Recommendation;

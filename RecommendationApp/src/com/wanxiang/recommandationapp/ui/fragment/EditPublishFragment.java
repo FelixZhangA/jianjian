@@ -15,7 +15,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.Toast;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.data.RecommendationDao;
 import com.wanxiang.recommandationapp.model.AskRecommendation;
 import com.wanxiang.recommandationapp.model.Entity;

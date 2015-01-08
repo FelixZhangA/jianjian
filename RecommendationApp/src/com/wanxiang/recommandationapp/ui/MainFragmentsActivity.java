@@ -21,7 +21,7 @@ import android.view.MotionEvent;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.ui.fragment.CategoryListFragment;
 import com.wanxiang.recommandationapp.ui.fragment.HomePageFragment;

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;;
 
 /**
  * Created by admin on 13-11-23.

@@ -19,7 +19,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionPageManager;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.Anim;

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
@@ -106,8 +106,9 @@ public class EntityDetailAdapter extends BaseAdapter {
 	private void handleRec( final Recommendation rec, boolean like, final ViewHolder holder )
 	{
 		LikeRecommendationMessage message = new LikeRecommendationMessage(HTTP_TYPE.HTTP_TYPE_POST);
-		message.addParams(AppConstants.HEADER_USER_ID, String.valueOf(1));
-		message.addParams(AppConstants.HEADER_REC_ID, String.valueOf(rec.getId()));
+		message.setParam(AppConstants.HEADER_REC_ID, String.valueOf(rec.getContentId()));
+		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(mContext).getSessionId());
+
 		if (like)
 		{
 			message.addParams(AppConstants.HEADER_LEVEL, String.valueOf(1));

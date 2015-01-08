@@ -20,7 +20,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.wanxiang.recommandationapp.R;
+import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.ui.ActivityManager;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.DialogClickListener;
 import com.wanxiang.recommandationapp.util.Constants;
