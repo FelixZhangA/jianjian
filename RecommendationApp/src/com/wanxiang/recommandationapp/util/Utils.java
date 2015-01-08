@@ -30,7 +30,6 @@ public class Utils
 	{
 		if (date != 0)
 		{
-			date = date*1000;
 			Date tmpDate = new Date(date);
 			SimpleDateFormat mDateFormat;
 			ContentResolver cv = context.getContentResolver();
