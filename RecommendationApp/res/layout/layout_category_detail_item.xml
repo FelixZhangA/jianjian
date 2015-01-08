@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical" >
@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_category"
-            style="@style/category_detail_style"
+            style="@style/category_style"
             android:layout_alignParentLeft="true"
             android:text="电影" />
 
