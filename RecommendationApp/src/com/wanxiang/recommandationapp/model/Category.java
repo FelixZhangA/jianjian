@@ -3,8 +3,6 @@ package com.wanxiang.recommandationapp.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.graphics.Color;
-
 public class Category implements Serializable {
 
 	private String name;

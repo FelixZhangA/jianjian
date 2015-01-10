@@ -6,8 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
@@ -15,18 +13,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher.ViewFactory;
 
 import com.jianjianapp.R;
@@ -35,7 +26,6 @@ import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
 import com.wanxiang.recommandationapp.controller.FusionPageManager;
 import com.wanxiang.recommandationapp.util.Constants;
-import com.wanxiang.recommandationapp.util.Utils;
 
 public class TripBaseFragment extends Fragment {
 

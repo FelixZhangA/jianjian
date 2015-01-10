@@ -25,8 +25,8 @@ public class LikeCategoryMessage extends JasonNetTaskMessage<Integer>
 	{
 		if (jsonObject != null)
 		{
-			String error = jsonObject.getString(AppConstants.RESPONSE_HEADER_ERROR);
-			if (TextUtils.isEmpty(error))
+			boolean success = jsonObject.getBoolean(AppConstants.RESPONSE_HEADER_SUCCESS);
+			if (success)
 			{
 				return 0;
 			}

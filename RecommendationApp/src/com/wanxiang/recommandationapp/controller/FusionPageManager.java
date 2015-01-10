@@ -1,8 +1,5 @@
 package com.wanxiang.recommandationapp.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,9 +18,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.ui.base.IPageSwitcher;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.onFragmentFinishListener;

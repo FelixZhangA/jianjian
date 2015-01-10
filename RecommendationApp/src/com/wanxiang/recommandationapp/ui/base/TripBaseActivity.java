@@ -17,14 +17,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 
-import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.ui.ActivityManager;
 import com.wanxiang.recommandationapp.ui.base.TripBaseFragment.DialogClickListener;
 import com.wanxiang.recommandationapp.util.Constants;
-import com.wanxiang.recommandationapp.util.Utils;
 
 public class TripBaseActivity extends FragmentActivity {
 

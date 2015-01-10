@@ -1,12 +1,15 @@
 package com.wanxiang.recommandationapp.ui.login;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -27,8 +30,10 @@ import com.wanxiang.recommandationapp.service.login.LoginMessage;
 import com.wanxiang.recommandationapp.service.login.LoginMessage.LoginResult;
 import com.wanxiang.recommandationapp.service.login.RegisterMessage;
 import com.wanxiang.recommandationapp.service.login.RegisterMessage.RegisterResult;
+import com.wanxiang.recommandationapp.ui.JianjianApplication;
 import com.wanxiang.recommandationapp.ui.MainFragmentsActivity;
 import com.wanxiang.recommandationapp.util.AppConstants;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 public class LoginActivity extends Activity {
 
@@ -67,7 +72,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (checkInputValid()) {
-					
+
 					if (mIsLogin) {
 						sendLoginMessage();
 					} else {
@@ -79,11 +84,12 @@ public class LoginActivity extends Activity {
 
 		mBtnGetPincode = (Button) findViewById(R.id.btn_get_pincode);
 		mBtnGetPincode.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (TextUtils.isEmpty(mEditPhone.getText().toString())) {
-					Toast.makeText(LoginActivity.this, "手机号码不能为空", Toast.LENGTH_LONG).show();
+					Toast.makeText(LoginActivity.this, "手机号码不能为空",
+							Toast.LENGTH_LONG).show();
 				} else {
 					sendPincodeMessage();
 				}
@@ -97,7 +103,6 @@ public class LoginActivity extends Activity {
 			mEditCode.setVisibility(View.GONE);
 			mBtnGetPincode.setVisibility(View.GONE);
 
-
 		} else {
 			mEditConfirmPassword.setVisibility(View.VISIBLE);
 			mBtnLogin.setText(getString(R.string.register));
@@ -109,19 +114,23 @@ public class LoginActivity extends Activity {
 	}
 
 	private void sendPincodeMessage() {
-		GetPinCodeMessage message = new GetPinCodeMessage(HTTP_TYPE.HTTP_TYPE_GET);
-		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText().toString());
+		GetPinCodeMessage message = new GetPinCodeMessage(
+				HTTP_TYPE.HTTP_TYPE_GET);
+		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText()
+				.toString());
 		message.setFusionCallBack(new FusionCallBack() {
 
 			@Override
 			public void onFinish(FusionMessage msg) {
 				super.onFinish(msg);
-				GetPinCodeResult result = (GetPinCodeResult) msg.getResponseData();
+				GetPinCodeResult result = (GetPinCodeResult) msg
+						.getResponseData();
 				if (result != null) {
 					if (result.success) {
 						mEditCode.setText(result.code);
 					} else {
-						Toast.makeText(LoginActivity.this, result.errMsg, Toast.LENGTH_LONG).show();
+						Toast.makeText(LoginActivity.this, result.errMsg,
+								Toast.LENGTH_LONG).show();
 
 					}
 				}
@@ -135,36 +144,45 @@ public class LoginActivity extends Activity {
 		FusionBus.getInstance(LoginActivity.this).sendMessage(message);
 
 	}
+
 	protected void sendRegisterMessage() {
 		RegisterMessage message = new RegisterMessage(HTTP_TYPE.HTTP_TYPE_POST);
-		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText().toString());
-		message.setParam(AppConstants.HEADER_PASSWORD, mEditPassword.getText().toString());
-		message.setParam(AppConstants.HEADER_USER_NAME, mEditUserName.getText().toString());
-		message.setParam(AppConstants.HEADER_VERIFY_CODE, mEditCode.getText().toString());
+		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText()
+				.toString());
+		message.setParam(AppConstants.HEADER_PASSWORD, mEditPassword.getText()
+				.toString());
+		message.setParam(AppConstants.HEADER_USER_NAME, mEditUserName.getText()
+				.toString());
+		message.setParam(AppConstants.HEADER_VERIFY_CODE, mEditCode.getText()
+				.toString());
 
 		message.setFusionCallBack(new FusionCallBack() {
 
 			@Override
 			public void onFinish(FusionMessage msg) {
 				super.onFinish(msg);
-				RegisterResult result = (RegisterResult)msg.getResponseData();
+				RegisterResult result = (RegisterResult) msg.getResponseData();
 				if (result != null) {
 					if (result.errCode == 0) {
-						AppPrefs.getInstance(LoginActivity.this).setSessionId(result.token);
+						registerMiPush();
+						AppPrefs.getInstance(LoginActivity.this).setSessionId(
+								result.token);
 						Intent intent = new Intent();
-						intent.setClass(LoginActivity.this, MainFragmentsActivity.class);
+						intent.setClass(LoginActivity.this,
+								MainFragmentsActivity.class);
 						startActivity(intent);
 						Intent uploadContact = new Intent();
-						uploadContact.setClass(LoginActivity.this, UploadContactService.class);
+						uploadContact.setClass(LoginActivity.this,
+								UploadContactService.class);
 						startService(uploadContact);
 						finish();
 					} else {
-						Toast.makeText(LoginActivity.this, result.errMsg, Toast.LENGTH_LONG)
-						.show();
+						Toast.makeText(LoginActivity.this, result.errMsg,
+								Toast.LENGTH_LONG).show();
 					}
 				} else {
-					Toast.makeText(LoginActivity.this, result.errMsg, Toast.LENGTH_LONG)
-					.show();
+					Toast.makeText(LoginActivity.this, result.errMsg,
+							Toast.LENGTH_LONG).show();
 				}
 			}
 
@@ -173,7 +191,7 @@ public class LoginActivity extends Activity {
 				super.onFailed(msg);
 			}
 		});
-		
+
 		FusionBus.getInstance(LoginActivity.this).sendMessage(message);
 
 	}
@@ -204,40 +222,66 @@ public class LoginActivity extends Activity {
 
 	protected void sendLoginMessage() {
 		LoginMessage message = new LoginMessage(HTTP_TYPE.HTTP_TYPE_POST);
-		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText().toString());
-		message.setParam(AppConstants.HEADER_PASSWORD, mEditPassword.getText().toString());
+		message.setParam(AppConstants.HEADER_PHONE, mEditPhone.getText()
+				.toString());
+		message.setParam(AppConstants.HEADER_PASSWORD, mEditPassword.getText()
+				.toString());
 		message.setFusionCallBack(new FusionCallBack() {
 
 			@Override
 			public void onFinish(FusionMessage msg) {
 				super.onFinish(msg);
-				LoginResult result = (LoginResult)msg.getResponseData();
+				LoginResult result = (LoginResult) msg.getResponseData();
 				if (result != null) {
 					if (result.errCode == 0) {
-						AppPrefs.getInstance(LoginActivity.this).setSessionId(result.token);
+						registerMiPush();
+						AppPrefs.getInstance(LoginActivity.this).setSessionId(
+								result.token);
 						Intent intent = new Intent();
-						intent.setClass(LoginActivity.this, MainFragmentsActivity.class);
+						intent.setClass(LoginActivity.this,
+								MainFragmentsActivity.class);
 						startActivity(intent);
 						Intent uploadContact = new Intent();
-						uploadContact.setClass(LoginActivity.this, UploadContactService.class);
+						uploadContact.setClass(LoginActivity.this,
+								UploadContactService.class);
 						startService(uploadContact);
 						finish();
 					} else {
-						Toast.makeText(LoginActivity.this, result.errMsg, Toast.LENGTH_LONG)
-						.show();
+						Toast.makeText(LoginActivity.this, result.errMsg,
+								Toast.LENGTH_LONG).show();
 					}
-				} 
+				}
 			}
-
 
 			@Override
 			public void onFailed(FusionMessage msg) {
 				super.onFailed(msg);
 			}
 		});
-		
+
 		FusionBus.getInstance(LoginActivity.this).sendMessage(message);
 
 	}
 
+	private void registerMiPush() {
+        // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
+        // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
+		if (shouldInit()) {
+			MiPushClient.registerPush(this, JianjianApplication.APP_ID, JianjianApplication.APP_KEY);
+		}
+
+	}
+
+	private boolean shouldInit() {
+		ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+		List<RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+		String mainProcessName = getPackageName();
+		int myPid = Process.myPid();
+		for (RunningAppProcessInfo info : processInfos) {
+			if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

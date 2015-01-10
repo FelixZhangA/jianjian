@@ -2,13 +2,10 @@ package com.wanxiang.recommandationapp.service.db.actor;
 
 import java.util.ArrayList;
 
-import android.text.TextUtils;
-
 import com.wanxiang.recommandationapp.controller.FusionActor;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
 import com.wanxiang.recommandationapp.data.DatabaseConstants;
 import com.wanxiang.recommandationapp.model.Category;
-import com.wanxiang.recommandationapp.service.db.bean.CategoryDataBean;
 import com.wanxiang.recommandationapp.service.db.manager.ICategoryManager;
 import com.wanxiang.recommandationapp.service.db.manager.impl.CategoryManager;
 

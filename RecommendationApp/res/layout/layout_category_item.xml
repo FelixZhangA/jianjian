@@ -2,13 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="horizontal"
+    android:gravity="center_vertical" >
 
     <TextView
         android:id="@+id/tv_category"
         style="@style/category_style"
-        android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:text="music" />
+
+    <ImageView
+        android:id="@+id/img_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/ic_category_liked"
+        android:visibility="gone" >
+    </ImageView>
 
 </LinearLayout>

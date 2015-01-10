@@ -14,6 +14,7 @@ public class AppPrefs extends SharedPreferencesProvider {
 	private static final String CATEGORY_UPDATE_TIME = "category_update_time";
 
 	private static final String TOKEN = "token";
+	private static final String REGISTRATION_ID = "reg_id";
 
 	private static final String IMEI = "imei";
 
@@ -103,5 +104,13 @@ public class AppPrefs extends SharedPreferencesProvider {
 	public String getSessionId() {
 		return get(TOKEN, "");
 	}
+	
+	public void setRegistrationId(String regId) {
+		set(REGISTRATION_ID, regId);
+	}
 
+	public String getRegistrationId() {
+		return get(REGISTRATION_ID, "");
+	}
+	
 }

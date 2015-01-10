@@ -2,6 +2,7 @@ package com.wanxiang.recommandationapp.ui.base.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;

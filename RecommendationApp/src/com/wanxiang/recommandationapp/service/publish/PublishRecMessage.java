@@ -4,8 +4,6 @@ package com.wanxiang.recommandationapp.service.publish;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.wanxiang.recommandationapp.http.impl.JasonNetTaskMessage;
 import com.wanxiang.recommandationapp.util.AppConstants;
 
@@ -46,8 +44,8 @@ public class PublishRecMessage extends JasonNetTaskMessage<Integer>
 	{
 		if (jsonObject != null)
 		{
-			String error = jsonObject.getString(AppConstants.RESPONSE_HEADER_ERROR);
-			if (TextUtils.isEmpty(error))
+			boolean success = jsonObject.getBoolean(AppConstants.RESPONSE_HEADER_SUCCESS);
+			if (success)
 			{
 				return 0;
 			}

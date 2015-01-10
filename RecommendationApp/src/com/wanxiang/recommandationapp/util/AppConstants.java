@@ -28,6 +28,8 @@ public class AppConstants
 	public static final String HEADER_SIGNATURE = "signature";
 	public static final String HEADER_REMARK = "remark";
 	public static final String HEADER_USER = "user";
+	public static final String HEADER_RID = "rid";
+	public static final String HEADER_PLATFORM = "platform";
 
 	
 	public static final String RESPONSE_HEADER_COMMENT = "comments";
@@ -62,11 +64,8 @@ public class AppConstants
 	public static final String RESPONSE_HEADER_TYPE = "contentType";
 
 
-	public static final String ACTION_PUBLISH_REC = "PublishTuijian";
 	public static final String ACTION_PUBLISH_ASK_REC = "PublishNeed";
-	public static final String ACTION_COMMENT_REC = "CommentTuijian";
 
-	public static final String ACTION_LIKE_CATEGORY = "LikeCategory";
 	public static final String ACTION_GET_NEED_MATCH_LIST = "GetNeedMatchList";
 	
 	
@@ -80,6 +79,10 @@ public class AppConstants
 	public static final String ACTION_SHOW_REC_DETAIL = "recommend/detail";
 	public static final String ACTION_SHOW_ENTITY = "feed/entitylist";
 	public static final String ACTION_PRAISE_REC = "recommend/praise";
+	public static final String ACTION_COMMENT_REC = "comment/send";
+	public static final String ACTION_PUBLISH_REC = "recommend/publish";
+	public static final String ACTION_LIKE_CATEGORY = "category/like";
+	public static final String ACTION_NOTIFY_REGISTER = "notify/register";
 
 	public static final int RECOMMEDATION_TYPE = 1;
 	public static final int ASK_RECOMMEDATION_TYPE = 2;

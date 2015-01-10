@@ -3,8 +3,6 @@ package com.wanxiang.recommandationapp.service.homepage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.wanxiang.recommandationapp.http.impl.JasonNetTaskMessage;
 import com.wanxiang.recommandationapp.util.AppConstants;
 

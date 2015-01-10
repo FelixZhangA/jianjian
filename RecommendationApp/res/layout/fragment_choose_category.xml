@@ -34,63 +34,25 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_recent_used"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/tv_recent_used"
-            android:layout_width="wrap_content"
+        <ListView
+            android:id="@+id/lv_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:text="最近使用"
-            android:textSize="16sp" />
+            android:layout_marginLeft="10dp"
+            android:background="@color/light_grey"
+            android:layout_weight="0.3" />
 
-        <ImageView
-            android:layout_width="fill_parent"
+        <ListView
+            android:id="@+id/lv_child"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/kz_cell_topline" />
-
-        <LinearLayout
-            android:id="@+id/ll_recent_used_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_all"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/tv_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:text="全部"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/kz_cell_topline" />
-
-        <LinearLayout
-            android:id="@+id/ll_all_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.7" />
     </LinearLayout>
 
 </LinearLayout>

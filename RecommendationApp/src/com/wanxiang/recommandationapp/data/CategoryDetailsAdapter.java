@@ -97,12 +97,10 @@ public class CategoryDetailsAdapter extends BaseAdapter {
 
 					LikeCategoryMessage message = new LikeCategoryMessage(
 							HTTP_TYPE.HTTP_TYPE_POST);
-					message.addParams(AppConstants.HEADER_USER_ID,
-							String.valueOf(1));
-					message.addParams(AppConstants.RESPONSE_HEADER_CATEGORY_ID,
+					message.setParam(AppConstants.HEADER_TOKEN,
+							AppPrefs.getInstance(mContext).getSessionId());
+					message.setParam(AppConstants.RESPONSE_HEADER_CATEGORY_ID,
 							String.valueOf(current.getCagetoryId()));
-					message.addHeader(AppConstants.HEADER_IMEI, AppPrefs
-							.getInstance(mContext).getIMEI());
 					message.setFusionCallBack(new FusionCallBack() {
 
 						@Override
@@ -112,14 +110,10 @@ public class CategoryDetailsAdapter extends BaseAdapter {
 							if (ret == 0) {
 								Toast.makeText(mContext, "收藏频道成功",
 										Toast.LENGTH_LONG).show();
-								holder.ivChecked.setVisibility(View.VISIBLE);
-								holder.btnJoin.setVisibility(View.GONE);
 								FusionMessage message = new FusionMessage("dbService", "updateCategory");
 								message.setParam(DatabaseConstants.MESSAGE_UPDATE, DatabaseConstants.MESSAGE_UPDATE_FAVORITE);
 								message.setParam(DatabaseConstants.COLUMN_CATEGORY_UID, current.getCagetoryId());
 								FusionBus.getInstance(mContext).sendMessage(message);
-								holder.ivChecked.setVisibility(View.VISIBLE);
-								holder.btnJoin.setVisibility(View.GONE);
 								mListener.onChannelFaviorated();
 							} else {
 								Toast.makeText(mContext, "收藏频道失败",

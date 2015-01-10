@@ -9,9 +9,7 @@ import java.util.HashMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 
 import android.text.TextUtils;

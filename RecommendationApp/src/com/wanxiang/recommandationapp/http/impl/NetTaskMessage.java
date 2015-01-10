@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.prefs.Preferences;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -18,7 +17,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
 import com.wanxiang.recommandationapp.controller.FusionMessage;
-import com.wanxiang.recommandationapp.util.Utils;
 
 
 /**

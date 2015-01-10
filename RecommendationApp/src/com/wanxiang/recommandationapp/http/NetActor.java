@@ -9,7 +9,6 @@ import com.wanxiang.recommandationapp.controller.FusionActor;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
 import com.wanxiang.recommandationapp.util.Constants;
-import com.wanxiang.recommandationapp.util.Utils;
 import com.wanxiang.recommandationapp.util.memcheck.MemoryChecker;
 
 public abstract class NetActor extends FusionActor {
