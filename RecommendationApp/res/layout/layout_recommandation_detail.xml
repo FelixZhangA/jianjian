@@ -114,6 +114,29 @@
                 android:layout_toRightOf="@id/img_comment"
                 android:text="5" />
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_praise_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_action"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_like" >
+            </ImageView>
+
+            <LinearLayout
+                android:id="@+id/ll_praise_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

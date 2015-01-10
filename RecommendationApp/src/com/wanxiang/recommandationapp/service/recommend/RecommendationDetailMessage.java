@@ -30,10 +30,13 @@ public class RecommendationDetailMessage extends JasonNetTaskMessage<Recommendat
 			ret.setUserId(data.getLong(AppConstants.RESPONSE_HEADER_USER_ID));
 			ret.setCategoryId(data.getLong(AppConstants.RESPONSE_HEADER_CATEGORY_ID));
 			ret.setEntityId(data.getLong(AppConstants.RESPONSE_HEADER_ENTITY_ID));
+			ret.setEntityName(data.getString(AppConstants.RESPONSE_HEADER_ENTITY_NAME));
 			ret.setDescription(data.getString(AppConstants.RESPONSE_HEADER_CONTENT));
 			ret.setPhraiseCount(data.getInt(AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
 			ret.setCommentCount(data.getInt(AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
 			ret.setUser(data.getJSONObject(AppConstants.HEADER_USER));
+			
+			ret.setPraiseUser(data.getJSONArray(AppConstants.RESPONSE_HEADER_PRAISE));
 			ret.setCategoryName(data.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
 
 			

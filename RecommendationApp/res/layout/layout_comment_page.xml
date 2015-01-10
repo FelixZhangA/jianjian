@@ -4,17 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include
+<!--     <include
         android:id="@+id/recommandation_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/layout_recommandation_detail" />
+        layout="@layout/layout_recommandation_detail" /> -->
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list_comments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/recommandation_item"
         android:layout_above="@+id/send_comment_bar"
         android:divider="@null"
         android:dividerHeight="8dp" />

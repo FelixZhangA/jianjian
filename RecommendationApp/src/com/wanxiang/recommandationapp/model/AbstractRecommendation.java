@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.wanxiang.recommandationapp.util.AppConstants;
+import com.wanxiang.recommandationapp.util.Utils;
 
 public class AbstractRecommendation implements Serializable {
 	public int content_type;
@@ -29,17 +30,7 @@ public class AbstractRecommendation implements Serializable {
 
 	public void setUser(JSONObject object) {
 		if (object != null) {
-			this.user = new User();
-			try {
-				user.setId(object.getLong(AppConstants.RESPONSE_HEADER_ID));
-				user.setName(object.getString(AppConstants.HEADER_USER_NAME));
-				user.setSignature(object.getString(AppConstants.HEADER_SIGNATURE));
-				user.setHeadImage(object.getString(AppConstants.HEADER_HEAD_IMAGE));
-				user.setRemark(object.getString(AppConstants.HEADER_REMARK));
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			this.user = Utils.getUserFromJson(object);
 		}
 
 	}

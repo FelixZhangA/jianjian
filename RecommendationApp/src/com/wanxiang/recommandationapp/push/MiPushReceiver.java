@@ -76,6 +76,8 @@ public class MiPushReceiver extends PushMessageReceiver {
 		message.setParam(AppConstants.HEADER_PLATFORM, String.valueOf(1));
 		message.setParam(AppConstants.HEADER_TOKEN,
 				AppPrefs.getInstance(mContext).getSessionId());
+		message.setParam(AppConstants.HEADER_IMEI,
+				AppPrefs.getInstance(mContext).getIMEI());
 		message.setFusionCallBack(new FusionCallBack() {
 
 			@Override

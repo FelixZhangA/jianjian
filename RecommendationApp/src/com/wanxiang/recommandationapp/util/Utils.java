@@ -14,7 +14,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +23,7 @@ import com.jianjianapp.R;
 import com.wanxiang.recommandationapp.model.AskRecommendation;
 import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.model.Recommendation;
+import com.wanxiang.recommandationapp.model.User;
 import com.wanxiang.recommandationapp.persistent.AppPrefs;
 
 public class Utils {
@@ -95,9 +95,18 @@ public class Utils {
 
 			ret.setPhraiseNum(obj
 					.getInt(AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
-
+			if (obj.has(AppConstants.RESPONSE_HEADER_PRAISE)) {
+				
+				ret.setPraisesUser(obj.getJSONArray(AppConstants.RESPONSE_HEADER_PRAISE));
+			}
+			
 			ret.setCommentNum(obj
 					.getInt(AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
+			if (obj.has(AppConstants.RESPONSE_HEADER_COMMENT)) {
+				
+				ret.setCommentUser(obj
+						.getJSONArray(AppConstants.RESPONSE_HEADER_COMMENT));
+			}
 
 			ret.setDescription(obj
 					.getString(AppConstants.RESPONSE_HEADER_CONTENT));
@@ -146,6 +155,23 @@ public class Utils {
 
 	}
 
+	public static User getUserFromJson(JSONObject object) {
+		if (object == null)
+			return null;
+		User user = new User();
+		try {
+			user.setId(object.getLong(AppConstants.RESPONSE_HEADER_ID));
+			user.setName(object.getString(AppConstants.HEADER_USER_NAME));
+			user.setSignature(object.getString(AppConstants.HEADER_SIGNATURE));
+			user.setHeadImage(object.getString(AppConstants.HEADER_HEAD_IMAGE));
+			user.setRemark(object.getString(AppConstants.HEADER_REMARK));
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
 	public static boolean isCategoryFavorited(Context context, Category category) {
 		ArrayList<Category> favoriteLst = AppPrefs.getInstance(context)
 				.getFavoriteCategory();
@@ -175,7 +201,7 @@ public class Utils {
 				.getNotification(); // 需要注意build()是在API level
 									// 16及之后增加的，在API11中可以使用getNotificatin()来代替
 		notify2.flags |= Notification.FLAG_AUTO_CANCEL;
-		
-        nm.notify(1, notify2);  
+
+		nm.notify(1, notify2);
 	}
 }

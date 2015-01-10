@@ -53,7 +53,10 @@ public class AppConstants
 	public static final String RESPONSE_HEADER_ENTITY_ID = "entityId";
 	public static final String RESPONSE_HEADER_CONTENT = "description";
 	public static final String RESPONSE_HEADER_PRAISE_COUNT = "praiseCount";
+	public static final String RESPONSE_HEADER_PRAISE = "praises";
+
 	public static final String RESPONSE_HEADER_COMMENT_COUNT = "commentCount";
+
 	public static final String RESPONSE_HEADER_NAME = "name";
 	public static final String RESPONSE_HEADER_CATEGORY_PARENT = "parentId";
 	public static final String RESPONSE_HEADER_CATEGORY_CHILDREN = "children";

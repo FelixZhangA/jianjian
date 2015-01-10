@@ -3,12 +3,14 @@ package com.wanxiang.recommandationapp.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.wanxiang.recommandationapp.model.Comment;
 import com.wanxiang.recommandationapp.model.User;
 import com.wanxiang.recommandationapp.util.AppConstants;
+import com.wanxiang.recommandationapp.util.Utils;
 
 /*
  [user_id] => 4
@@ -49,7 +51,8 @@ public class RecommendationDetail implements Serializable {
 	private String entityName;
 	private ArrayList<String> praiseList;
 	private ArrayList<Comment> commentList;
-
+	private ArrayList<User> praiseUser;
+	private long updateTime;
 	public long getUserId() {
 		return userId;
 	}
@@ -140,15 +143,47 @@ public class RecommendationDetail implements Serializable {
 			try {
 				user.setId(object.getLong(AppConstants.RESPONSE_HEADER_ID));
 				user.setName(object.getString(AppConstants.HEADER_USER_NAME));
-				user.setSignature(object.getString(AppConstants.HEADER_SIGNATURE));
-				user.setHeadImage(object.getString(AppConstants.HEADER_HEAD_IMAGE));
+				user.setSignature(object
+						.getString(AppConstants.HEADER_SIGNATURE));
+				user.setHeadImage(object
+						.getString(AppConstants.HEADER_HEAD_IMAGE));
 				user.setRemark(object.getString(AppConstants.HEADER_REMARK));
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
+	}
+
+	public ArrayList<User> getPraiseUser() {
+		return praiseUser;
+	}
+
+	public void setPraiseUser(JSONArray jsonArray) {
+		if (jsonArray != null && jsonArray.length() > 0) {
+			praiseUser = new ArrayList<User>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject object;
+				try {
+					object = jsonArray.getJSONObject(i);
+					JSONObject userDetail = object.getJSONObject(AppConstants.HEADER_USER);
+					praiseUser.add(Utils.getUserFromJson(userDetail));
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(long updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

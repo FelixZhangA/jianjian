@@ -84,73 +84,73 @@ public class CommentsActivity extends Activity implements OnClickListener {
 		mBtnSend = (Button) findViewById(R.id.btn_send);
 		mBtnSend.setOnClickListener(this);
 
-		initRecommendation();
+//		initRecommendation();
 		getComments();
 
 	}
 
-	private void initRecommendation() {
-		View rLayout = findViewById(R.id.recommandation_item);
-		TextView tvEntityName = (TextView) rLayout
-				.findViewById(R.id.tv_entity_name);
-		tvEntityName.setText(mRecommendation.getEntityName());
-		tvEntityName.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				if (mSource == AppConstants.SOURCE_ENTITY_PAGE) {
-					onBackPressed();
-				} else {
-					Entity entity = new Entity(mRecommendation.getEntityName());
-					entity.setId(mRecommendation.getEntityId());
-					Intent intent = new Intent(CommentsActivity.this,
-							EntityDetailsActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putSerializable(
-							AppConstants.RESPONSE_HEADER_ENTITY_NAME, entity);
-					intent.putExtras(bundle);
-					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-					startActivity(intent);
-				}
-			}
-		});
-
-		TextView tvName = (TextView) rLayout.findViewById(R.id.tv_user);
-		tvName.setText(getString(R.string.rec_detail_header, mRecommendation
-				.getUser().getName(), mRecommendation.getCategoryName()));
-
-		TextView tvContent = (TextView) rLayout.findViewById(R.id.tv_content);
-		tvContent.setText(mRecommendation.getDescription());
-
-		TextView tvDate = (TextView) rLayout.findViewById(R.id.tv_timestamp);
-		long date = mRecommendation.getUpdateTime();
-		String dateTxt = Utils.formatDate(this, date);
-		tvDate.setText(dateTxt);
-
-		mPraiseText = (TextView) rLayout.findViewById(R.id.tv_praise);
-		mPraiseText.setText(String.valueOf(mRecommendation.getPhraiseNum()));
-		mPraiseText.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				handleRec(mRecommendation, true, mPraiseText);
-
-			}
-		});
-		mImgPraise = (ImageView) rLayout.findViewById(R.id.img_praise);
-		mImgPraise.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				handleRec(mRecommendation, true, mPraiseText);
-
-			}
-		});
-		mCommentNum = mRecommendation.getCommentNum();
-		mCommentsText = (TextView) rLayout.findViewById(R.id.tv_comment);
-		mCommentsText.setText(String.valueOf(mCommentNum));
-
-	}
+//	private void initRecommendation() {
+//		View rLayout = findViewById(R.id.recommandation_item);
+//		TextView tvEntityName = (TextView) rLayout
+//				.findViewById(R.id.tv_entity_name);
+//		tvEntityName.setText(mRecommendation.getEntityName());
+//		tvEntityName.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				if (mSource == AppConstants.SOURCE_ENTITY_PAGE) {
+//					onBackPressed();
+//				} else {
+//					Entity entity = new Entity(mRecommendation.getEntityName());
+//					entity.setId(mRecommendation.getEntityId());
+//					Intent intent = new Intent(CommentsActivity.this,
+//							EntityDetailsActivity.class);
+//					Bundle bundle = new Bundle();
+//					bundle.putSerializable(
+//							AppConstants.RESPONSE_HEADER_ENTITY_NAME, entity);
+//					intent.putExtras(bundle);
+//					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//					startActivity(intent);
+//				}
+//			}
+//		});
+//
+//		TextView tvName = (TextView) rLayout.findViewById(R.id.tv_user);
+//		tvName.setText(getString(R.string.rec_detail_header, mRecommendation
+//				.getUser().getName(), mRecommendation.getCategoryName()));
+//
+//		TextView tvContent = (TextView) rLayout.findViewById(R.id.tv_content);
+//		tvContent.setText(mRecommendation.getDescription());
+//
+//		TextView tvDate = (TextView) rLayout.findViewById(R.id.tv_timestamp);
+//		long date = mRecommendation.getUpdateTime();
+//		String dateTxt = Utils.formatDate(this, date);
+//		tvDate.setText(dateTxt);
+//
+//		mPraiseText = (TextView) rLayout.findViewById(R.id.tv_praise);
+//		mPraiseText.setText(String.valueOf(mRecommendation.getPhraiseNum()));
+//		mPraiseText.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				handleRec(mRecommendation, true, mPraiseText);
+//
+//			}
+//		});
+//		mImgPraise = (ImageView) rLayout.findViewById(R.id.img_praise);
+//		mImgPraise.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				handleRec(mRecommendation, true, mPraiseText);
+//
+//			}
+//		});
+//		mCommentNum = mRecommendation.getCommentNum();
+//		mCommentsText = (TextView) rLayout.findViewById(R.id.tv_comment);
+//		mCommentsText.setText(String.valueOf(mCommentNum));
+//
+//	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
@@ -233,7 +233,7 @@ public class CommentsActivity extends Activity implements OnClickListener {
 				if (ret != null) {
 					ArrayList<Comment> comments = ret.getCommentList();
 					final CommentsListAdapter adapter = new CommentsListAdapter(
-							CommentsActivity.this, comments);
+							CommentsActivity.this, comments, ret, mSource);
 					mListView.setAdapter(adapter);
 					mListView.setOnItemClickListener(new OnItemClickListener() {
 

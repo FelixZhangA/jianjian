@@ -1,9 +1,13 @@
 package com.wanxiang.recommandationapp.model;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.wanxiang.recommandationapp.util.Utils;
 
 /*
  * 
@@ -12,123 +16,106 @@ import java.util.ArrayList;
  * [praise_count] => 0 [comment_count] => 0 [user_name] => 万象小助手 [category_name]
  * => 综艺 [entity_name] => 兵临城下 )
  */
-public class Recommendation extends AbstractRecommendation implements Serializable
-{
+public class Recommendation extends AbstractRecommendation implements
+		Serializable {
 	/**
      * 
      */
-	private static final long	serialVersionUID	= 1L;
-	private long				updateTime;
+	private static final long serialVersionUID = 1L;
+	private long updateTime;
 
-	private long				categoryId;
-	private long				entityId;
-	private String				description;
+	private long categoryId;
+	private long entityId;
+	private String description;
 
-	private ArrayList<Comment>	comments;
-	private int					phraise_num			= 0;
-	private int					comment_num			= 0;
-	private String				entityName;
-	private String				categoryName;
-	
-	private long 				needId				= 0;
+	private ArrayList<Comment> comments;
+	private int phraise_num = 0;
+	private int comment_num = 0;
+	private ArrayList<User> praisesUser;
+	private ArrayList<User> commentUser;
 
-	public long getUpdateTime()
-	{
+	private String entityName;
+	private String categoryName;
+
+	private long needId = 0;
+
+	public long getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime( long updateTime )
-	{
+	public void setUpdateTime(long updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	public long getCategoryId()
-	{
+	public long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId( long categoryId )
-	{
+	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public long getEntityId()
-	{
+	public long getEntityId() {
 		return entityId;
 	}
 
-	public void setEntityId( long entityId )
-	{
+	public void setEntityId(long entityId) {
 		this.entityId = entityId;
 	}
 
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public static long getSerialversionuid()
-	{
+	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public Recommendation()
-	{
+	public Recommendation() {
 		// For cursor transfer use;
 	}
 
-	public ArrayList<Comment> getComments()
-	{
+	public ArrayList<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments( ArrayList<Comment> comments )
-	{
+	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public int getPhraiseNum()
-	{
+	public int getPhraiseNum() {
 		return phraise_num;
 	}
 
-	public void setPhraiseNum( int num )
-	{
+	public void setPhraiseNum(int num) {
 		this.phraise_num = num;
 	}
 
-	public int getCommentNum()
-	{
+	public int getCommentNum() {
 		return comment_num;
 	}
 
-	public void setCommentNum( int num )
-	{
+	public void setCommentNum(int num) {
 		this.comment_num = num;
 	}
 
-	public String getEntityName()
-	{
+	public String getEntityName() {
 		return entityName;
 	}
 
-	public void setEntityName( String entityName )
-	{
+	public void setEntityName(String entityName) {
 		this.entityName = entityName;
 	}
 
-	public String getCategoryName()
-	{
+	public String getCategoryName() {
 		return categoryName;
 	}
 
-	public void setCategoryName( String categoryName )
-	{
+	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
 
@@ -138,6 +125,48 @@ public class Recommendation extends AbstractRecommendation implements Serializab
 
 	public void setNeedId(long needId) {
 		this.needId = needId;
+	}
+
+	public ArrayList<User> getPraisesUser() {
+		return praisesUser;
+	}
+
+	public void setPraisesUser(JSONArray jsonArray) {
+		if (jsonArray != null && jsonArray.length() > 0) {
+			praisesUser = new ArrayList<User>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject object;
+				try {
+					object = jsonArray.getJSONObject(i);
+					praisesUser.add(Utils.getUserFromJson(object));
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public ArrayList<User> getCommentUser() {
+		return commentUser;
+	}
+
+	public void setCommentUser(JSONArray jsonArray) {
+		if (jsonArray != null && jsonArray.length() > 0) {
+			commentUser = new ArrayList<User>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject object;
+				try {
+					object = jsonArray.getJSONObject(i);
+					commentUser.add(Utils.getUserFromJson(object));
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
