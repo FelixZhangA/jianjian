@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.jianjianapp.R;
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
@@ -198,44 +199,42 @@ public class ChooseCategoryFragment extends Fragment {
 	}
 
 	private void startQuery() {
-		CategoryMessage message = new CategoryMessage(HTTP_TYPE.HTTP_TYPE_GET);
+		CategoryData data = (CategoryData) CacheManager.loadCache(getActivity(), AppConstants.CACHE_CATEGORY_DATA);
+		if (data != null) {
+			handleCategoryData(data);
+		} else {
+			
+			CategoryMessage message = new CategoryMessage(
+					HTTP_TYPE.HTTP_TYPE_GET);
+			message.setContext(getActivity());
+			message.setParam(AppConstants.HEADER_TOKEN,
+					AppPrefs.getInstance(getActivity()).getSessionId());
+			message.setParam(AppConstants.REQUEST_HEADER_CATEGORY_DEPTH,
+					String.valueOf(2));
+			message.setFusionCallBack(new FusionCallBack() {
 
-		message.setParam(AppConstants.HEADER_TOKEN,
-				AppPrefs.getInstance(getActivity()).getSessionId());
-		message.setParam(AppConstants.REQUEST_HEADER_CATEGORY_DEPTH,
-				String.valueOf(2));
-		message.setFusionCallBack(new FusionCallBack() {
-
-			@Override
-			public void onFinish(FusionMessage msg) {
-				super.onFinish(msg);
-				CategoryData cat = (CategoryData) msg.getResponseData();
-				if (cat != null) {
-					mLikeCategoryList = cat.getListLike();
-					mAllCategoryList = cat.getListOther();
-					// mParentList.addAll(cat);
-					// CategoryAdapter adapter = new
-					// CategoryAdapter(getActivity(), cat);
-					// mCategoryList.setAdapter(adapter);
-					// for (Category tmp : cat) {
-					// if (TextUtils.equals("全部", tmp.getCategoryName())) {
-					// mChildList = tmp.getChildrenList();
-					// setupCategoryUI(mChildList, mAllCategory, false);
-					// setSelectedCategory();
-					// break;
-					// }
-					//
-					// }
+				@Override
+				public void onFinish(FusionMessage msg) {
+					super.onFinish(msg);
+					CategoryData data = (CategoryData) msg.getResponseData();
+					handleCategoryData(data);
 				}
-			}
 
-			@Override
-			public void onFailed(FusionMessage msg) {
-				super.onFailed(msg);
-			}
+				@Override
+				public void onFailed(FusionMessage msg) {
+					super.onFailed(msg);
+				}
 
-		});
-		FusionBus.getInstance(getActivity()).sendMessage(message);
+			});
+			FusionBus.getInstance(getActivity()).sendMessage(message);
+		}
+	}
+
+	private void handleCategoryData(CategoryData cat) {
+		if (cat != null) {
+			mLikeCategoryList = cat.getListLike();
+			mAllCategoryList = cat.getListOther();
+		}
 	}
 
 	// private void clearSelection() {

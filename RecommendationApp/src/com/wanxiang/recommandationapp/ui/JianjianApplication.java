@@ -17,6 +17,7 @@ public class JianjianApplication extends Application {
     // com.xiaomi.mipushdemo
     public static final String TAG = "com.jianjianapp";
 	private static MiPushHandler handler;
+	public static int mNetWorkState;
     @Override
     public void onCreate() {
         super.onCreate();

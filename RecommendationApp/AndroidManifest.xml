@@ -104,6 +104,11 @@
             android:name="com.wanxiang.recommandationapp.service.friends.UploadContactService"
             android:exported="false" />
 
+        <receiver android:name="com.wanxiang.recommandationapp.receiver.BaseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <!-- MI PUSH -->
         <service
             android:name="com.xiaomi.push.service.XMPushService"

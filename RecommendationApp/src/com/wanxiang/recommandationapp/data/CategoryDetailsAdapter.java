@@ -97,6 +97,7 @@ public class CategoryDetailsAdapter extends BaseAdapter {
 
 					LikeCategoryMessage message = new LikeCategoryMessage(
 							HTTP_TYPE.HTTP_TYPE_POST);
+					message.setContext(mContext);
 					message.setParam(AppConstants.HEADER_TOKEN,
 							AppPrefs.getInstance(mContext).getSessionId());
 					message.setParam(AppConstants.RESPONSE_HEADER_CATEGORY_ID,

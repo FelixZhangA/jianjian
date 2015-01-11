@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.http.impl.JasonNetTaskMessage;
 import com.wanxiang.recommandationapp.util.AppConstants;
 
@@ -28,6 +29,7 @@ public class LikeCategoryMessage extends JasonNetTaskMessage<Integer>
 			boolean success = jsonObject.getBoolean(AppConstants.RESPONSE_HEADER_SUCCESS);
 			if (success)
 			{
+				CacheManager.clearCache(context, AppConstants.CACHE_CATEGORY_DATA);
 				return 0;
 			}
 		}

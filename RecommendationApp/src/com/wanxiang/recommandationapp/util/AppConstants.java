@@ -87,6 +87,9 @@ public class AppConstants
 	public static final String ACTION_LIKE_CATEGORY = "category/like";
 	public static final String ACTION_NOTIFY_REGISTER = "notify/register";
 
+	public static final String CACHE_CATEGORY_DATA = "cache_category_data";
+	public static final String CACHE_REC_DATA = "cache_rec_data";
+
 	public static final int RECOMMEDATION_TYPE = 1;
 	public static final int ASK_RECOMMEDATION_TYPE = 2;
 	

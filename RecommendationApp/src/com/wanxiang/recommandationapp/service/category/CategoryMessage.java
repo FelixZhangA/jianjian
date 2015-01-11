@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.http.impl.JasonNetTaskMessage;
 import com.wanxiang.recommandationapp.model.Category;
 import com.wanxiang.recommandationapp.util.AppConstants;
@@ -60,6 +61,8 @@ public class CategoryMessage extends JasonNetTaskMessage<CategoryData>
 		}
 		ret.setListOther(lstOther);
 		
+		// 增加缓存
+		CacheManager.saveCache(context, AppConstants.CACHE_CATEGORY_DATA, ret);
 		return ret;
 
 	}

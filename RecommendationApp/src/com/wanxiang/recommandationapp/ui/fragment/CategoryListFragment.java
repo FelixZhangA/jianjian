@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
 import com.jianjianapp.R;
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
@@ -95,78 +96,60 @@ public class CategoryListFragment extends Fragment {
 
 	private void startQuery() {
 		mCategoryLikeList.clear();
-		final AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
-		long categoryUpdateTime = appPrefs.getCategoryUpdateTime();
+
 		if (true) {// (System.currentTimeMillis() - categoryUpdateTime >
 					// DatabaseConstants.TWENTY_FOUR_HOUR) {
+			CategoryData cacheData = (CategoryData) CacheManager.loadCache(getActivity(), AppConstants.CACHE_CATEGORY_DATA);
+			if (cacheData != null) {
+				handleFusionResponse(cacheData);
+			} else {
+				CategoryMessage message = new CategoryMessage(
+						HTTP_TYPE.HTTP_TYPE_GET);
+				message.setContext(getActivity());
+				message.setParam(AppConstants.HEADER_TOKEN,
+						AppPrefs.getInstance(getActivity()).getSessionId());
+				message.setFusionCallBack(new FusionCallBack() {
 
-			CategoryMessage message = new CategoryMessage(
-					HTTP_TYPE.HTTP_TYPE_GET);
+					@Override
+					public void onFinish(FusionMessage msg) {
+						super.onFinish(msg);
+						CategoryData data = (CategoryData) msg.getResponseData();
+						handleFusionResponse(data);
+						// FusionMessage addCategoryMsg = new FusionMessage(
+						// "dbService", "addCategory");
+						// addCategoryMsg.setParam(
+						// DatabaseConstants.MESSAGE_CATEGORY_LIST,
+						// getAllCategory());
+						// addCategoryMsg.setFusionCallBack(new FusionCallBack() {
+						//
+						// @Override
+						// public void onFinish(FusionMessage msg) {
+						// super.onFinish(msg);
+						// appPrefs.setCategoryUpdateTime(System
+						// .currentTimeMillis());
+						// }
+						//
+						// });
+						// FusionBus.getInstance(getActivity()).sendMessage(
+						// addCategoryMsg);
+					}
 
-			message.setParam(AppConstants.HEADER_TOKEN,
-					AppPrefs.getInstance(getActivity()).getSessionId());
-			message.setFusionCallBack(new FusionCallBack() {
+					@Override
+					public void onFailed(FusionMessage msg) {
+						super.onFailed(msg);
+					}
 
-				@Override
-				public void onFinish(FusionMessage msg) {
-					super.onFinish(msg);
-					handleFusionResponse(msg);
-					FusionMessage addCategoryMsg = new FusionMessage(
-							"dbService", "addCategory");
-					addCategoryMsg.setParam(
-							DatabaseConstants.MESSAGE_CATEGORY_LIST,
-							getAllCategory());
-					addCategoryMsg.setFusionCallBack(new FusionCallBack() {
-
-						@Override
-						public void onFinish(FusionMessage msg) {
-							super.onFinish(msg);
-							appPrefs.setCategoryUpdateTime(System
-									.currentTimeMillis());
-						}
-
-					});
-					FusionBus.getInstance(getActivity()).sendMessage(
-							addCategoryMsg);
-				}
-
-				@Override
-				public void onFailed(FusionMessage msg) {
-					super.onFailed(msg);
-				}
-
-			});
-			FusionBus.getInstance(getActivity()).sendMessage(message);
-		} else {
-			FusionMessage message = new FusionMessage("dbService",
-					"queryCategory");
-			message.setParam(DatabaseConstants.MESSAGE_QUERY,
-					DatabaseConstants.MESSAGE_QUERY_PARENT);
-			message.setFusionCallBack(new FusionCallBack() {
-
-				@Override
-				public void onFinish(FusionMessage msg) {
-					super.onFinish(msg);
-					handleFusionResponse(msg);
-				}
-
-				@Override
-				public void onFailed(FusionMessage msg) {
-					super.onFailed(msg);
-					Log.d("wanxiang", msg.getErrorDesp());
-				}
-			});
-			FusionBus.getInstance(getActivity()).sendMessage(message);
+				});
+				FusionBus.getInstance(getActivity()).sendMessage(message);
+			}
 		}
-
 	}
 
 	public interface OnChannelFavioratedListener {
 		public void onChannelFaviorated();
 	}
 
-	private void handleFusionResponse(FusionMessage message) {
-		CategoryData cat = (CategoryData) message.getResponseData();
+	private void handleFusionResponse(CategoryData cat) {
 		if (cat != null) {
 			mCategoryLikeList.clear();
 			mCategoryLikeList = cat.getListLike();
