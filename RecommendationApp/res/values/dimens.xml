@@ -5,6 +5,8 @@
     <dimen name="color_divider_dimen">3dp</dimen>
     <dimen name="sync_notification_complete_message_padding_left">12dp</dimen>
     <dimen name="sync_notification_complete_message_padding_right">4dp</dimen>
-    <dimen name="badge_size">30dp</dimen>
-    
+    <dimen name="badge_size">32dp</dimen>
+    <dimen name="header_image_size_height">24dp</dimen>
+    <dimen name="header_image_size_width">20dp</dimen>
+
 </resources>

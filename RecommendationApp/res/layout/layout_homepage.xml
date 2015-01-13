@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     android:orientation="vertical" >
+
+    <include
+        android:id="@+id/rl_header"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        layout="@layout/layout_header" />
 
     <TextView
         android:id="@+id/tv_empty"
@@ -18,6 +24,7 @@
         android:id="@+id/lst_recomandation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rl_header"
         android:divider="@null"
         android:dividerHeight="8dp" >
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
@@ -35,4 +42,4 @@
         android:focusableInTouchMode="true"
         android:visibility="gone" />
 
-</FrameLayout>
+</RelativeLayout>

@@ -28,7 +28,7 @@
     </style>
 
     <style name="homepage_title_style">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:layout_marginLeft">14dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
@@ -37,7 +37,7 @@
 
     <style name="homepage_title_category_style">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/BG_GRAY</item>
+        <item name="android:textColor">@color/date_color_grey</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -45,7 +45,7 @@
 
     <style name="category_style">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/BG_BLACK</item>
+        <item name="android:textColor">@color/category_name_color</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:gravity">left|center_vertical</item>

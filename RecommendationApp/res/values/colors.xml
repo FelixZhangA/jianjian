@@ -11,6 +11,9 @@
     <color name="BG_BLACK">#000000</color>
     <color name="weibo_listtab_off">#8d8d8d</color>
     <color name="transparent">#00ffffff</color>
-    <color name="light_grey">#EEEEEE</color>
+    <color name="light_grey">#f5f5f5</color>
+    <color name="header_background">#99c64d</color>
+    <color name="category_name_color">#666666</color>
+    <color name="date_color_grey">#cccccc</color>
 
 </resources>

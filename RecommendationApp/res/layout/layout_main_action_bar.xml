@@ -32,12 +32,12 @@
             android:drawableTop="@drawable/weibolist_attention_selector"
             android:text="@string/tab_channel" />
 
-        <RadioButton
+<!--         <RadioButton
             android:id="@+id/radio_message"
             style="@style/weibo_tab"
             android:drawableTop="@drawable/weibolist_comment_selector"
             android:text="@string/tab_message" />
-
+ -->
         <RadioButton
             android:id="@+id/radio_myProfile"
             style="@style/weibo_tab"

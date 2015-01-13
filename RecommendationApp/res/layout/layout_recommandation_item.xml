@@ -15,22 +15,24 @@
             android:id="@+id/tv_category"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="7dp"
             android:gravity="center_vertical"
             android:text="电影"
-            android:textSize="20dp" />
+            android:textColor="@color/category_name_color"
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:scaleType="fitXY"
         android:src="@drawable/kz_cell_topline" />
+
     <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginRight="20dip"
         android:layout_marginTop="10dp" >
 
@@ -43,30 +45,40 @@
         <TextView
             android:id="@+id/tv_user"
             style="@style/homepage_title_category_style"
-            android:layout_marginLeft="10dp"
+            android:textColor="@color/category_name_color"
+            android:layout_marginLeft="6dp"
             android:layout_toRightOf="@id/img_badge"
-            android:text="小胡 推荐 " />
+            android:text="小胡 " />
+
+        <TextView
+            style="@style/homepage_title_category_style"
+            android:layout_alignBottom="@id/tv_user"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/tv_user"
+            android:text="推荐 "
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_entity_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="41dp"
             android:layout_below="@id/img_badge"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
             android:background="@color/light_grey"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="10dp"
+            android:drawableLeft="@drawable/ic_entity_background"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:text="社交网络"
-            android:textSize="22sp" >
+            android:textSize="20sp" >
         </TextView>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_content"
         style="@style/homepage_title_style"
-        android:layout_marginLeft="56dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="20dip"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:text="Facebook的成功经验，值得后人借鉴" />
@@ -76,8 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="18dp"
         android:paddingRight="20dip" >
 
         <TextView
@@ -85,8 +97,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
             android:layout_marginRight="5dp"
+            android:textSize="13sp"
+            android:textColor="@color/date_color_grey"
             android:text="30分钟前" />
 
         <RelativeLayout
