@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jianjianapp.R;
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
@@ -70,52 +73,63 @@ public class HomePageListAdapter extends BaseAdapter
 	{
 		AbstractRecommendation rec = mListRec.get(position);
 		if (rec instanceof Recommendation)
-		{
-			final Recommendation r = (Recommendation)rec;
-			if (convertView == null || !(convertView.getTag() instanceof RecViewHolder))
-			{
-				convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_recommandation_item, null);
+ {
+			final Recommendation r = (Recommendation) rec;
+			if (convertView == null
+					|| !(convertView.getTag() instanceof RecViewHolder)) {
+				convertView = LayoutInflater.from(mContext).inflate(
+						R.layout.layout_recommandation_item, null);
 				RecViewHolder holder = new RecViewHolder();
-				holder.tvEntityName = (TextView)convertView.findViewById(R.id.tv_entity_name);
-				holder.tvCategory = (TextView)convertView.findViewById(R.id.tv_category);
-				holder.tvContent = (TextView)convertView.findViewById(R.id.tv_content);
-				holder.tvDate = (TextView)convertView.findViewById(R.id.tv_timestamp);
-				holder.tvUser = (TextView)convertView.findViewById(R.id.tv_user);
-				holder.tvComment = (TextView)convertView.findViewById(R.id.tv_comment);
-				holder.tvPhraise = (TextView)convertView.findViewById(R.id.tv_praise);
-				holder.imgPhraise = (ImageView)convertView.findViewById(R.id.img_praise);
-
+				holder.tvEntityName = (TextView) convertView
+						.findViewById(R.id.tv_entity_name);
+				holder.tvCategory = (TextView) convertView
+						.findViewById(R.id.tv_category);
+				holder.tvContent = (TextView) convertView
+						.findViewById(R.id.tv_content);
+				holder.tvDate = (TextView) convertView
+						.findViewById(R.id.tv_timestamp);
+				holder.tvUser = (TextView) convertView
+						.findViewById(R.id.tv_user);
+				holder.tvComment = (TextView) convertView
+						.findViewById(R.id.tv_comment);
+				holder.tvPhraise = (TextView) convertView
+						.findViewById(R.id.tv_praise);
+				holder.imgPhraise = (ImageView) convertView
+						.findViewById(R.id.img_praise);
+				holder.ivBadge = (ImageView) convertView
+						.findViewById(R.id.img_badge);
 				convertView.setTag(holder);
 			}
-			final RecViewHolder holder = (RecViewHolder)convertView.getTag();
+			final RecViewHolder holder = (RecViewHolder) convertView.getTag();
 			holder.tvEntityName.setText(r.getEntityName());
 			holder.tvEntityName.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View arg0) {
 					Entity entity = new Entity(r.getEntityName());
 					entity.setId(r.getEntityId());
-					Intent intent = new Intent(mContext, EntityDetailsActivity.class);
+					Intent intent = new Intent(mContext,
+							EntityDetailsActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(AppConstants.RESPONSE_HEADER_ENTITY_NAME, entity);
+					bundle.putSerializable(
+							AppConstants.RESPONSE_HEADER_ENTITY_NAME, entity);
 					intent.putExtras(bundle);
 					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					mContext.startActivity(intent);
 
 				}
 			});
-			holder.tvUser.setText(mContext.getString(R.string.category_user, r.getUser().getName()));
+			holder.tvUser.setText(r.getUser().getName());
 			holder.tvCategory.setText(r.getCategoryName());
-			holder.tvCategory.setOnClickListener(new View.OnClickListener()
-			{
+			holder.tvCategory.setOnClickListener(new View.OnClickListener() {
 
 				@Override
-				public void onClick( View v )
-				{
+				public void onClick(View v) {
 					Category cat = new Category();
 					cat.setCategoryId(r.getCategoryId());
 					cat.setCategoryName(r.getCategoryName());
-					Intent intent = new Intent(mContext, CategoryDetailsActivity.class);
+					Intent intent = new Intent(mContext,
+							CategoryDetailsActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable(AppConstants.INTENT_CATEGORY, cat);
 					intent.putExtras(bundle);
@@ -125,30 +139,30 @@ public class HomePageListAdapter extends BaseAdapter
 			});
 
 			holder.tvContent.setText(r.getDescription());
-			holder.tvDate.setText(Utils.formatDate(mContext, r.getUpdateTime()));
+			holder.tvDate.setText(Utils.getStandardDate(r.getUpdateTime()));
 			holder.tvComment.setText(String.valueOf(r.getCommentNum()));
-		
+
 			holder.tvPhraise.setText(String.valueOf(r.getPhraiseNum()));
-			holder.tvPhraise.setOnClickListener(new View.OnClickListener()
-			{
-				
+			holder.tvPhraise.setOnClickListener(new View.OnClickListener() {
+
 				@Override
-				public void onClick( View v )
-				{
+				public void onClick(View v) {
 					handleRec(r, true, holder);
 				}
 			});
-			
-			holder.imgPhraise.setOnClickListener(new View.OnClickListener()
-			{
-				
+
+			holder.imgPhraise.setOnClickListener(new View.OnClickListener() {
+
 				@Override
-				public void onClick( View v )
-				{
+				public void onClick(View v) {
 					handleRec(r, true, holder);
 				}
 			});
-			
+
+			Bitmap bitmap = BitmapFactory.decodeResource(
+					mContext.getResources(), R.drawable.user_icon);
+			Bitmap output = Utils.getRoundedCornerBitmap(bitmap, 2f);
+			holder.ivBadge.setImageBitmap(output);
 		}
 		else
 		{
@@ -243,6 +257,8 @@ public class HomePageListAdapter extends BaseAdapter
 		ImageView	imgComment;
 
 		TextView	tvUser;
+		
+		ImageView 	ivBadge;
 	}
 
 	private static class AskRecViewHolder
@@ -265,6 +281,7 @@ public class HomePageListAdapter extends BaseAdapter
 
 	private void handleRec( final Recommendation rec, boolean like, final RecViewHolder holder )
 	{
+
 		LikeRecommendationMessage message = new LikeRecommendationMessage(HTTP_TYPE.HTTP_TYPE_POST);
 		message.setParam(AppConstants.HEADER_REC_ID, String.valueOf(rec.getContentId()));
 		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(mContext).getSessionId());
@@ -282,8 +299,10 @@ public class HomePageListAdapter extends BaseAdapter
 				int ret = (Integer)msg.getResponseData();
 				if (ret == 0)
 				{
+					rec.setPhraiseNum(rec.getPhraiseNum() + 1);
+					CacheManager.saveCache(mContext, AppConstants.CACHE_REC_DATA, mListRec);
 					Toast.makeText(mContext, "点赞成功~", Toast.LENGTH_LONG).show();
-					holder.tvPhraise.setText(String.valueOf(rec.getPhraiseNum() + 1));
+					holder.tvPhraise.setText(String.valueOf(rec.getPhraiseNum()));
 				}
 				else
 				{

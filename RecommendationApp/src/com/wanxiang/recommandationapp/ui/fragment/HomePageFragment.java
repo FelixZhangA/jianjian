@@ -18,6 +18,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jianjianapp.R;
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
@@ -36,12 +37,8 @@ import com.wanxiang.recommandationapp.util.AppConstants;
 public class HomePageFragment extends BaseFragment implements OnItemClickListener
 {
 	private PullToRefreshListView				mListView;
-	private RecommendationCursorAdapter			mAdapter;
-	private Cursor								mCursor;
 	private HomePageListAdapter					mListAdapter;
-	private int									mPageIndex = 1;
 	private ArrayList<AbstractRecommendation>	mListRec		= new ArrayList<AbstractRecommendation>();
-	private static final int					SUCCESS			= 1111;
 
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
@@ -54,6 +51,7 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 	public void onViewCreated( View view, Bundle savedInstanceState )
 	{
 		super.onViewCreated(view, savedInstanceState);
+		
 		mListView = (PullToRefreshListView)getView().findViewById(R.id.lst_recomandation);
 		mListView.setOnItemClickListener(this);
 		mListView.setMode(Mode.BOTH);
@@ -77,7 +75,14 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 			}
 		});
 
-		startQuery(true);
+		ArrayList<AbstractRecommendation> cacheData = (ArrayList<AbstractRecommendation>) CacheManager.loadCache(getActivity(), AppConstants.CACHE_REC_DATA);
+		if (cacheData != null) {
+			mListRec.clear();
+			mListRec.addAll(cacheData);
+			fillData();
+		} else {
+			startQuery(true);
+		}
 
 	}
 
@@ -91,7 +96,6 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 
 		if (isPullDown)
 		{
-			mPageIndex = 1;
 			mListRec.clear();
 		} else
 		{
@@ -112,12 +116,12 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 
 				if (mListRec != null && mListRec.size() > 0)
 				{
+					CacheManager.saveCache(getActivity(), AppConstants.CACHE_REC_DATA, mListRec);
 					fillData();
 					// Get the last recommendation, which date is the oldest.
 					appPrefs.setLastRecommendationId(mListRec.get(mListRec.size() - 1).getId());
 				}
 				mListView.onRefreshComplete();
-				mPageIndex++;
 
 			}
 
@@ -125,6 +129,13 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 			public void onFailed( FusionMessage msg )
 			{
 				super.onFailed(msg);
+				// load cache
+				ArrayList<AbstractRecommendation> cacheData = (ArrayList<AbstractRecommendation>) CacheManager.loadCache(getActivity(), AppConstants.CACHE_REC_DATA);
+				if (cacheData != null) {
+					mListRec.clear();
+					mListRec.addAll(cacheData);
+					fillData();
+				}
 				mListView.onRefreshComplete();
 			}
 

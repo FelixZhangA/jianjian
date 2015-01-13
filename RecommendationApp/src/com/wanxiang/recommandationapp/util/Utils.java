@@ -14,6 +14,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -96,14 +103,15 @@ public class Utils {
 			ret.setPhraiseNum(obj
 					.getInt(AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
 			if (obj.has(AppConstants.RESPONSE_HEADER_PRAISE)) {
-				
-				ret.setPraisesUser(obj.getJSONArray(AppConstants.RESPONSE_HEADER_PRAISE));
+
+				ret.setPraisesUser(obj
+						.getJSONArray(AppConstants.RESPONSE_HEADER_PRAISE));
 			}
-			
+
 			ret.setCommentNum(obj
 					.getInt(AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
 			if (obj.has(AppConstants.RESPONSE_HEADER_COMMENT)) {
-				
+
 				ret.setCommentUser(obj
 						.getJSONArray(AppConstants.RESPONSE_HEADER_COMMENT));
 			}
@@ -203,5 +211,83 @@ public class Utils {
 		notify2.flags |= Notification.FLAG_AUTO_CANCEL;
 
 		nm.notify(1, notify2);
+	}
+
+	/**
+	 * 将时间戳转为代表"距现在多久之前"的字符串
+	 * 
+	 * @param timeStr
+	 *            时间戳
+	 * @return
+	 */
+	public static String getStandardDate(long date) {
+
+		StringBuffer sb = new StringBuffer();
+
+		long time = System.currentTimeMillis() - date;
+		long mill = (long) Math.ceil(time / 1000);// 秒前
+
+		long minute = (long) Math.ceil(time / 60 / 1000.0f);// 分钟前
+
+		long hour = (long) Math.ceil(time / 60 / 60 / 1000.0f);// 小时
+
+		long day = (long) Math.ceil(time / 24 / 60 / 60 / 1000.0f);// 天前
+
+		if (day - 1 > 0) {
+			sb.append(day + "天");
+		} else if (hour - 1 > 0) {
+			if (hour >= 24) {
+				sb.append("1天");
+			} else {
+				sb.append(hour + "小时");
+			}
+		} else if (minute - 1 > 0) {
+			if (minute == 60) {
+				sb.append("1小时");
+			} else {
+				sb.append(minute + "分钟");
+			}
+		} else if (mill - 1 > 0) {
+			if (mill == 60) {
+				sb.append("1分钟");
+			} else {
+				sb.append(mill + "秒");
+			}
+		} else {
+			sb.append("刚刚");
+		}
+		if (!sb.toString().equals("刚刚")) {
+			sb.append("前");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 将图片截取为圆角图片
+	 * 
+	 * @param bitmap
+	 *            原图片
+	 * @param ratio
+	 *            截取比例，如果是8，则圆角半径是宽高的1/8，如果是2，则是圆形图片
+	 * @return 圆角矩形图片
+	 */
+	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float ratio) {
+
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		canvas.drawRoundRect(rectF, bitmap.getWidth() / ratio,
+				bitmap.getHeight() / ratio, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return output;
 	}
 }

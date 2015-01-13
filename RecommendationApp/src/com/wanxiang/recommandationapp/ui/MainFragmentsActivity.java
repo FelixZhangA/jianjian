@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 
@@ -45,14 +46,15 @@ public class MainFragmentsActivity extends FragmentActivity implements TabListen
 	public void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.layout_main_action_bar);
 		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-
-		// Specify that the Home/Up button should not be enabled, since there is
-		// no hierarchical parent.
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setTitle(Html.fromHtml("<small><b>" + getString(R.string.main_action_bar_name) + "</b></small>"));
+//		final ActionBar actionBar = getActionBar();
+//
+//		// Specify that the Home/Up button should not be enabled, since there is
+//		// no hierarchical parent.
+//		actionBar.setHomeButtonEnabled(false);
+//		actionBar.setTitle(Html.fromHtml("<small><b>" + getString(R.string.main_action_bar_name) + "</b></small>"));
 
 		fragmentManager = getSupportFragmentManager();
 		radioGroup = (RadioGroup)findViewById(R.id.rg_tab);
@@ -67,7 +69,7 @@ public class MainFragmentsActivity extends FragmentActivity implements TabListen
 					case R.id.radio_home:
 						fragment = new HomePageFragment();
 						break;
-					case R.id.radio_message:
+//					case R.id.radio_message:
 					case R.id.radio_myProfile:
 						fragment = new MyProfileFragment();
 						break;
@@ -88,26 +90,26 @@ public class MainFragmentsActivity extends FragmentActivity implements TabListen
 		// ArrayList<MainFragmentsActivity.MyOnTouchListener>();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_main_activity_actions, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	
-	
-	@Override
-	public boolean onMenuItemSelected( int featureId, MenuItem item )
-	{
-		if (item.getItemId() == R.id.action_publish)
-		{
-			Intent intent = new Intent();
-			intent.setClass(this, PublishRecommendationActivity.class);
-			startActivityForResult(intent, PUBLISH_REQUEST );
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.menu_main_activity_actions, menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
+//	
+//	
+//	
+//	@Override
+//	public boolean onMenuItemSelected( int featureId, MenuItem item )
+//	{
+//		if (item.getItemId() == R.id.action_publish)
+//		{
+//			Intent intent = new Intent();
+//			intent.setClass(this, PublishRecommendationActivity.class);
+//			startActivityForResult(intent, PUBLISH_REQUEST );
+//		}
+//		return super.onMenuItemSelected(featureId, item);
+//	}
 
 	public void registerMyOnTouchListener( MyOnTouchListener myOnTouchListener )
 	{

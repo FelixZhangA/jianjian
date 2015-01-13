@@ -84,7 +84,7 @@ public class CacheManager {
 				cacheFile.createNewFile();
 			}
 
-			fileOutputStream = new FileOutputStream(cacheFile.toString());
+			fileOutputStream = new FileOutputStream(cacheFile.toString(), false);
 			objectOutputStream = new ObjectOutputStream(fileOutputStream);
 			objectOutputStream.writeObject(dest);
 		} catch (IOException e) {
