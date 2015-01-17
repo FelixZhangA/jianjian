@@ -35,7 +35,7 @@ public class HomePageMessage extends JasonNetTaskMessage<ArrayList<AbstractRecom
 			JSONObject tmp = (JSONObject)array.get(i);
 			if (AppConstants.RECOMMEDATION_TYPE == tmp.getInt(AppConstants.RESPONSE_HEADER_TYPE))
 			{
-				Recommendation r = Utils.getRecFromJson(tmp);
+				Recommendation r = Utils.getRecFromJson(context, tmp);
 				if (r != null && !TextUtils.isEmpty(r.getEntityName()) && !TextUtils.isEmpty(r.getCategoryName()))
 				{
 					ret.add(r);
@@ -43,7 +43,7 @@ public class HomePageMessage extends JasonNetTaskMessage<ArrayList<AbstractRecom
 			}
 			else
 			{
-				AskRecommendation aRec = Utils.getAskRecFromJson(tmp);
+				AskRecommendation aRec = Utils.getAskRecFromJson(context, tmp);
 				if (aRec != null)
 				{
 					ret.add(aRec);

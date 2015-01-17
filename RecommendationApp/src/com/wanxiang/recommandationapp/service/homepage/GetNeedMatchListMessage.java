@@ -30,7 +30,7 @@ public class GetNeedMatchListMessage extends
 				.getJSONArray(AppConstants.RESPONSE_HEADER_DATA);
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject tmp = (JSONObject) array.get(i);
-			Recommendation r = Utils.getRecFromJson(tmp);
+			Recommendation r = Utils.getRecFromJson(context, tmp);
 			if (r != null && !TextUtils.isEmpty(r.getEntityName())
 					&& !TextUtils.isEmpty(r.getCategoryName())) {
 				ret.add(r);

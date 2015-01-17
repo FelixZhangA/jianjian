@@ -94,6 +94,8 @@ public class MatchNeedListActivity extends Activity {
 	private void startQuery(final boolean isPullDown) {
 		GetNeedMatchListMessage message = new GetNeedMatchListMessage(
 				HTTP_TYPE.HTTP_TYPE_GET);
+		message.setContext(this);
+
 		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
 		message.setParam(AppConstants.HEADER_NEEDID,
 				String.valueOf(mAskRec.getId()));

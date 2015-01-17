@@ -37,6 +37,8 @@ public class Recommendation extends AbstractRecommendation implements
 	private String entityName;
 	private String categoryName;
 
+	private int friendType; // 好友类型
+	private User commonFriend; // 共同好友
 	private long needId = 0;
 
 	public long getUpdateTime() {
@@ -83,9 +85,20 @@ public class Recommendation extends AbstractRecommendation implements
 		return comments;
 	}
 
-	public void setComments(ArrayList<Comment> comments) {
-		this.comments = comments;
-	}
+	public void setComments(JSONArray jsonArray) {
+		
+		if (jsonArray != null && jsonArray.length() > 0) {
+			comments = new ArrayList<Comment>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject object;
+				try {
+					object = jsonArray.getJSONObject(i);
+					comments.add(Utils.getCommentFromJson(object));
+
+				} catch (JSONException e) {
+				}
+			}
+		}	}
 
 	public int getPhraiseNum() {
 		return phraise_num;
@@ -167,6 +180,22 @@ public class Recommendation extends AbstractRecommendation implements
 				}
 			}
 		}
+	}
+
+	public int getFriendType() {
+		return friendType;
+	}
+
+	public void setFriendType(int friendType) {
+		this.friendType = friendType;
+	}
+
+	public User getCommonFriend() {
+		return commonFriend;
+	}
+
+	public void setCommonFriend(User commonFriend) {
+		this.commonFriend = commonFriend;
 	}
 
 }

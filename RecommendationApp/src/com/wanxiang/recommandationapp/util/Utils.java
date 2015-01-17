@@ -27,11 +27,14 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.alibaba.fastjson.JSON;
 import com.jianjianapp.R;
+import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.model.AskRecommendation;
 import com.wanxiang.recommandationapp.model.Category;
+import com.wanxiang.recommandationapp.model.Comment;
 import com.wanxiang.recommandationapp.model.Recommendation;
 import com.wanxiang.recommandationapp.model.User;
 import com.wanxiang.recommandationapp.persistent.AppPrefs;
+import com.wanxiang.recommandationapp.service.category.CategoryData;
 
 public class Utils {
 	public static String formatDate(Context context, long date) {
@@ -78,83 +81,74 @@ public class Utils {
 
 	}
 
-	public static Recommendation getRecFromJson(JSONObject obj) {
+	public static Recommendation getRecFromJson(Context context, JSONObject obj) {
 		Recommendation ret = new Recommendation();
-		try {
-			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_ID));
-			if (obj.has(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID)) {
-				ret.setContentId(obj
-						.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
-			}
+		ret.setId(JSONUtils.getLong(obj, AppConstants.RESPONSE_HEADER_ID));
+		ret.setContentId(JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
 
-			ret.setEntityName(obj
-					.getString(AppConstants.RESPONSE_HEADER_ENTITY_NAME));
-			ret.setEntityId(obj.getLong(AppConstants.RESPONSE_HEADER_ENTITY_ID));
-			ret.setCategoryName(obj
-					.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
-			ret.setCategoryId(obj
-					.getLong(AppConstants.RESPONSE_HEADER_CATEGORY_ID));
-			ret.setUserId(obj.getLong(AppConstants.RESPONSE_HEADER_USER_ID));
-			ret.setUser(obj.getJSONObject(AppConstants.HEADER_USER));
+		ret.setEntityName(JSONUtils.getString(obj,
+				AppConstants.RESPONSE_HEADER_ENTITY_NAME));
+		ret.setEntityId(JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_ENTITY_ID));
 
-			ret.setUpdateTime(obj
-					.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
+		long catId = JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_CATEGORY_ID);
+		ret.setCategoryId(catId);
 
-			ret.setPhraiseNum(obj
-					.getInt(AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
-			if (obj.has(AppConstants.RESPONSE_HEADER_PRAISE)) {
+		ret.setCategoryName(getCategoryById(context, catId));
+		ret.setUserId(JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_USER_ID));
+		ret.setUser(JSONUtils.getObject(obj, AppConstants.HEADER_USER));
 
-				ret.setPraisesUser(obj
-						.getJSONArray(AppConstants.RESPONSE_HEADER_PRAISE));
-			}
+		ret.setUpdateTime(JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_UPDATE_TIME));
 
-			ret.setCommentNum(obj
-					.getInt(AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
-			if (obj.has(AppConstants.RESPONSE_HEADER_COMMENT)) {
+		ret.setPhraiseNum(JSONUtils.getInt(obj,
+				AppConstants.RESPONSE_HEADER_PRAISE_COUNT));
+		ret.setPraisesUser(JSONUtils.getArray(obj,
+				AppConstants.RESPONSE_HEADER_PRAISE));
 
-				ret.setCommentUser(obj
-						.getJSONArray(AppConstants.RESPONSE_HEADER_COMMENT));
-			}
+		ret.setCommentNum(JSONUtils.getInt(obj,
+				AppConstants.RESPONSE_HEADER_COMMENT_COUNT));
 
-			ret.setDescription(obj
-					.getString(AppConstants.RESPONSE_HEADER_CONTENT));
+		ret.setComments(JSONUtils.getArray(obj,
+				AppConstants.RESPONSE_HEADER_COMMENT));
 
-			ret.setUpdateTime(obj
-					.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
-			// TODO: 评论列表
-			// ret.setComments(obj.getJSONArray(name))
+		ret.setDescription(JSONUtils.getString(obj,
+				AppConstants.RESPONSE_HEADER_CONTENT));
 
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ret.setUpdateTime(JSONUtils.getLong(obj,
+				AppConstants.RESPONSE_HEADER_UPDATE_TIME));
+		// TODO: 评论列表
+		// ret.setComments(obj.getJSONArray(name))
 		return ret;
 
 	}
 
-	public static AskRecommendation getAskRecFromJson(JSONObject obj) {
+	public static AskRecommendation getAskRecFromJson(Context context,
+			JSONObject obj) {
 		AskRecommendation ret = new AskRecommendation();
 		try {
-			ret.setId(obj.getLong(AppConstants.RESPONSE_HEADER_ID));
-			ret.setContentId(obj
-					.getLong(AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
-			ret.setUpdateTime(obj
-					.getLong(AppConstants.RESPONSE_HEADER_UPDATE_TIME));
-			ret.setCategoryName(obj
-					.getString(AppConstants.RESPONSE_HEADER_CATEGORY_NAME));
+			ret.setId(JSONUtils.getLong(obj, AppConstants.RESPONSE_HEADER_ID));
+			ret.setContentId(JSONUtils.getLong(obj,
+					AppConstants.RESPONSE_HEADER_RECOMMENDATION_ID));
+			ret.setUpdateTime(JSONUtils.getLong(obj,
+					AppConstants.RESPONSE_HEADER_UPDATE_TIME));
+
 			if (obj.has(AppConstants.RESPONSE_HEADER_CATEGORY_ID)) {
-				ret.setCategoryId(obj
-						.getLong(AppConstants.RESPONSE_HEADER_CATEGORY_ID));
+				long catId = obj
+						.getLong(AppConstants.RESPONSE_HEADER_CATEGORY_ID);
+				ret.setCategoryId(catId);
+				ret.setCategoryName(Utils.getCategoryById(context, catId));
 			}
 			if (obj.has(AppConstants.RESPONSE_HEADER_USER_ID)) {
 				ret.setUserId(obj.getLong(AppConstants.RESPONSE_HEADER_USER_ID));
 			}
-			ret.setUser(obj.getJSONObject(AppConstants.HEADER_USER));
+			ret.setUser(JSONUtils.getObject(obj, AppConstants.HEADER_USER));
 
-			if (obj.has(AppConstants.RESPONSE_HEADER_CONTENT)) {
-				ret.setDescription(obj
-						.getString(AppConstants.RESPONSE_HEADER_CONTENT));
-			}
+			ret.setDescription(JSONUtils.getString(obj,
+					AppConstants.RESPONSE_HEADER_CONTENT));
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -167,17 +161,24 @@ public class Utils {
 		if (object == null)
 			return null;
 		User user = new User();
-		try {
-			user.setId(object.getLong(AppConstants.RESPONSE_HEADER_ID));
-			user.setName(object.getString(AppConstants.HEADER_USER_NAME));
-			user.setSignature(object.getString(AppConstants.HEADER_SIGNATURE));
-			user.setHeadImage(object.getString(AppConstants.HEADER_HEAD_IMAGE));
-			user.setRemark(object.getString(AppConstants.HEADER_REMARK));
-
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		user.setId(JSONUtils.getLong(object, AppConstants.RESPONSE_HEADER_ID));
+		user.setName(JSONUtils.getString(object, AppConstants.HEADER_USER_NAME));
+		user.setSignature(JSONUtils.getString(object, AppConstants.HEADER_SIGNATURE));
+		user.setHeadImage(JSONUtils.getString(object, AppConstants.HEADER_HEAD_IMAGE));
 		return user;
+	}
+	
+	public static Comment getCommentFromJson(JSONObject object) {
+		if (object == null)
+			return null;
+		Comment comment = new Comment();
+		comment.setId(JSONUtils.getLong(object, AppConstants.RESPONSE_HEADER_ID));
+		comment.setRecommendationId(JSONUtils.getLong(object, AppConstants.RESPONSE_HEADER_OWNER_ID));
+		comment.setContent(JSONUtils.getString(object, AppConstants.HEADER_COMMENT_CONTENT));
+		comment.setUser(JSONUtils.getObject(object, AppConstants.HEADER_USER));
+		comment.setUserId(JSONUtils.getLong(object, AppConstants.RESPONSE_HEADER_USER_ID));
+		comment.setCommentDate(JSONUtils.getLong(object, AppConstants.RESPONSE_HEADER_UPDATE_TIME));
+		return comment;
 	}
 
 	public static boolean isCategoryFavorited(Context context, Category category) {
@@ -204,6 +205,7 @@ public class Utils {
 				.setContentTitle(title)// 设置在下拉status
 										// bar后Activity，本例子中的NotififyMessage的TextView中显示的标题
 				.setContentText(description)// TextView中显示的详细内容
+				.setDefaults(Notification.DEFAULT_SOUND)
 				.setContentIntent(pendingIntent) // 关联PendingIntent
 				.setNumber(1) // 在TextView的右方显示的数字，可放大图片看，在最右侧。这个number同时也起到一个序列号的左右，如果多个触发多个通知（同一ID），可以指定显示哪一个。
 				.getNotification(); // 需要注意build()是在API level
@@ -289,5 +291,29 @@ public class Utils {
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		return output;
+	}
+
+	public static String getCategoryById(Context context, long categoryId) {
+		CategoryData cacheData = (CategoryData) CacheManager.loadCache(context,
+				AppConstants.CACHE_CATEGORY_DATA);
+		if (cacheData != null) {
+			ArrayList<Category> likeList = cacheData.getListLike();
+			if (likeList != null) {
+				for (Category tmp : likeList) {
+					if (categoryId == tmp.getCagetoryId()) {
+						return tmp.getCategoryName();
+					}
+				}
+			}
+			ArrayList<Category> otherList = cacheData.getListOther();
+			if (otherList != null) {
+				for (Category tmp : otherList) {
+					if (categoryId == tmp.getCagetoryId()) {
+						return tmp.getCategoryName();
+					}
+				}
+			}
+		}
+		return "";
 	}
 }

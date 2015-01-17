@@ -100,6 +100,8 @@ public class EntityDetailsActivity extends Activity implements
 
 	protected void startQuery(boolean isPullDown) {
 		EntityMessage message = new EntityMessage(HTTP_TYPE.HTTP_TYPE_GET);
+		message.setContext(this);
+
 		message.setParam(AppConstants.HEADER_USER_ID, String.valueOf(1));
 		message.setParam(AppConstants.RESPONSE_HEADER_ENTITY_ID, mEntity.getId());
 		if (isPullDown) {

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/BG_WHITE"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -45,10 +46,10 @@
         <TextView
             android:id="@+id/tv_user"
             style="@style/homepage_title_category_style"
-            android:textColor="@color/category_name_color"
             android:layout_marginLeft="6dp"
             android:layout_toRightOf="@id/img_badge"
-            android:text="小胡 " />
+            android:text="小胡 "
+            android:textColor="@color/category_name_color" />
 
         <TextView
             style="@style/homepage_title_category_style"
@@ -98,9 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
-            android:textSize="13sp"
+            android:text="30分钟前"
             android:textColor="@color/date_color_grey"
-            android:text="30分钟前" />
+            android:textSize="13sp" />
 
         <RelativeLayout
             android:id="@+id/rl_action"
@@ -148,35 +149,54 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/body_bottom"
+        android:id="@+id/rl_interaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="13dp"
-        android:visibility="gone" >
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="20dip"
+        android:background="@color/interaction_background" >
 
-        <ImageView
-            android:id="@+id/img_useful"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_centerVertical="true"
-            android:contentDescription="TODO"
-            android:src="@drawable/ic_useful" />
-
-        <TextView
-            android:id="@+id/tv_user_list"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_praise_detail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/img_useful"
-            android:text="小张等10个朋友也觉着有用" />
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:visibility="gone" >
 
-        <ListView
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_like" >
+            </ImageView>
+
+            <LinearLayout
+                android:id="@+id/ll_praise_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_praise_detail"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
+        <!--
+             <com.wanxiang.recommandationapp.ui.widget.ListViewForScrollView
             android:id="@+id/lst_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_user_list" />
+            android:divider="@null"
+            android:layout_below="@id/ll_praise_detail" />
+        -->
     </RelativeLayout>
 
 </LinearLayout>

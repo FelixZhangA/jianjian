@@ -147,7 +147,10 @@ public class RecommendationDetail implements Serializable {
 						.getString(AppConstants.HEADER_SIGNATURE));
 				user.setHeadImage(object
 						.getString(AppConstants.HEADER_HEAD_IMAGE));
-				user.setRemark(object.getString(AppConstants.HEADER_REMARK));
+				if (object.has(AppConstants.HEADER_REMARK)) {
+					
+					user.setRemark(object.getString(AppConstants.HEADER_REMARK));
+				}
 
 			} catch (JSONException e) {
 				e.printStackTrace();

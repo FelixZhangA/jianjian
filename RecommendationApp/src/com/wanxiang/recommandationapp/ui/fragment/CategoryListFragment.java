@@ -99,28 +99,31 @@ public class CategoryListFragment extends Fragment {
 
 		if (true) {// (System.currentTimeMillis() - categoryUpdateTime >
 					// DatabaseConstants.TWENTY_FOUR_HOUR) {
-			CategoryData cacheData = (CategoryData) CacheManager.loadCache(getActivity(), AppConstants.CACHE_CATEGORY_DATA);
+			CategoryData cacheData = (CategoryData) CacheManager.loadCache(
+					getActivity(), AppConstants.CACHE_CATEGORY_DATA);
 			if (cacheData != null) {
 				handleFusionResponse(cacheData);
 			} else {
 				CategoryMessage message = new CategoryMessage(
 						HTTP_TYPE.HTTP_TYPE_GET);
 				message.setContext(getActivity());
-				message.setParam(AppConstants.HEADER_TOKEN,
-						AppPrefs.getInstance(getActivity()).getSessionId());
+				message.setParam(AppConstants.HEADER_TOKEN, AppPrefs
+						.getInstance(getActivity()).getSessionId());
 				message.setFusionCallBack(new FusionCallBack() {
 
 					@Override
 					public void onFinish(FusionMessage msg) {
 						super.onFinish(msg);
-						CategoryData data = (CategoryData) msg.getResponseData();
+						CategoryData data = (CategoryData) msg
+								.getResponseData();
 						handleFusionResponse(data);
 						// FusionMessage addCategoryMsg = new FusionMessage(
 						// "dbService", "addCategory");
 						// addCategoryMsg.setParam(
 						// DatabaseConstants.MESSAGE_CATEGORY_LIST,
 						// getAllCategory());
-						// addCategoryMsg.setFusionCallBack(new FusionCallBack() {
+						// addCategoryMsg.setFusionCallBack(new FusionCallBack()
+						// {
 						//
 						// @Override
 						// public void onFinish(FusionMessage msg) {
@@ -170,29 +173,5 @@ public class CategoryListFragment extends Fragment {
 			mAdapter.notifyDataSetChanged();
 
 		}
-	}
-
-	private ArrayList<Category> getAllCategory() {
-		ArrayList<Category> ret = new ArrayList<Category>();
-		// 鎴戝枩娆㈢殑 鎴戜笉鍠滄鐨� 鍏ㄩ儴
-		ret.addAll(mCategoryLikeList);
-
-		// 鎴戝枩娆㈢殑
-		ArrayList<Category> favoriteList = mCategoryLikeList.get(0)
-				.getChildrenList();
-
-		// 鍏ㄩ儴
-		ArrayList<Category> all = mCategoryLikeList.get(2).getChildrenList();
-
-		// for (Category cat : all) {
-		// for (Category tmp : favoriteList) {
-		// if (tmp.getCagetoryId() == cat.getCagetoryId()) {
-		// cat.setFavor(true);
-		// break;
-		// }
-		// }
-		// ret.add(cat);
-		// }
-		return ret;
 	}
 }

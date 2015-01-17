@@ -173,6 +173,7 @@ public class CategoryDetailsActivity extends Activity implements
 				.getInstance(CategoryDetailsActivity.this);
 		CategoryDetailDynamicMessage message = new CategoryDetailDynamicMessage(
 				HTTP_TYPE.HTTP_TYPE_GET);
+		message.setContext(this);
 
 		if (!isPullDown) {
 			message.setParam(AppConstants.HEADER_NEXT_ID,

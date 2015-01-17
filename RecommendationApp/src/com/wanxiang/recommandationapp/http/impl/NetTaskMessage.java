@@ -28,7 +28,9 @@ public abstract class NetTaskMessage<T> extends FusionMessage
 {
 
 //	private static final String	BASE_URL			= "http://182.92.187.217/index.php?module=core&action=";
-	private static final String	BASE_URL			= "http://182.92.187.217/api/";
+	private static final String	BASE_URL_API			= "http://182.92.187.217/api/";
+	private static final String BASE_URL_DEV			= "http://182.92.187.217/dev/";
+	private static final int SERVER_TYPE			= 1; // 1:DEV  2:API
 	/**
 	 * 
 	 */
@@ -120,7 +122,7 @@ public abstract class NetTaskMessage<T> extends FusionMessage
 	private String getBaseUrl()
 	{
 
-		return BASE_URL;
+		return SERVER_TYPE == 1 ? BASE_URL_DEV : BASE_URL_API;
 	}
 
 	public void init()

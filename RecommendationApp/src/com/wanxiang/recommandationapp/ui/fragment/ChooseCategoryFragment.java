@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,7 +18,6 @@ import com.wanxiang.recommandationapp.cache.CacheManager;
 import com.wanxiang.recommandationapp.controller.FusionBus;
 import com.wanxiang.recommandationapp.controller.FusionCallBack;
 import com.wanxiang.recommandationapp.controller.FusionMessage;
-import com.wanxiang.recommandationapp.data.CategoryAdapter;
 import com.wanxiang.recommandationapp.http.impl.NetTaskMessage.HTTP_TYPE;
 import com.wanxiang.recommandationapp.model.AbstractRecommendation;
 import com.wanxiang.recommandationapp.model.AskRecommendation;
@@ -30,6 +27,7 @@ import com.wanxiang.recommandationapp.persistent.AppPrefs;
 import com.wanxiang.recommandationapp.service.category.CategoryData;
 import com.wanxiang.recommandationapp.service.category.CategoryMessage;
 import com.wanxiang.recommandationapp.service.publish.PublishRecMessage;
+import com.wanxiang.recommandationapp.ui.ChooseCategoryItemView;
 import com.wanxiang.recommandationapp.ui.OnFragmentChangeListener;
 import com.wanxiang.recommandationapp.util.AppConstants;
 
@@ -38,17 +36,16 @@ public class ChooseCategoryFragment extends Fragment {
 	private Button mBtnBack;
 	private Button mBtnNext;
 	private OnFragmentChangeListener mListener;
-	private ListView mLvParent;
-	private ListView mLvChildren;
+	private LinearLayout						mAllCategory;
+	private LinearLayout						mRecentUsedCategory;
 
 	private ArrayList<Category> mRecentCategoryList = new ArrayList<Category>();
-	private ArrayList<Category> mLikeCategoryList = new ArrayList<Category>();
+	// private ArrayList<Category> mLikeCategoryList = new
+	// ArrayList<Category>();
 	private ArrayList<Category> mAllCategoryList = new ArrayList<Category>();
 
-	// private ArrayList<ChooseCategoryItemView> mCategoryItemViewList = new
-	// ArrayList<ChooseCategoryItemView>();
-	// private ArrayList<ChooseCategoryItemView> mRecentItemViewList = new
-	// ArrayList<ChooseCategoryItemView>();
+	private ArrayList<ChooseCategoryItemView> mCategoryItemViewList = new ArrayList<ChooseCategoryItemView>();
+	private ArrayList<ChooseCategoryItemView> mRecentItemViewList = new ArrayList<ChooseCategoryItemView>();
 
 	private Category mSelectedCategory;
 	private int mCurrentParent = 0;
@@ -97,9 +94,15 @@ public class ChooseCategoryFragment extends Fragment {
 
 		mRecentCategoryList = AppPrefs.getInstance(getActivity())
 				.getRecentUsedCategory();
-		mLvParent = (ListView) view.findViewById(R.id.lv_parent);
-		mLvChildren = (ListView) view.findViewById(R.id.lv_child);
-		setupCategoryUI();
+//		mLvParent = (ListView) view.findViewById(R.id.lv_parent);
+//		mLvChildren = (ListView) view.findViewById(R.id.lv_child);
+		mAllCategory = (LinearLayout) view.findViewById(R.id.ll_all_item);
+
+		mRecentUsedCategory = (LinearLayout) view
+				.findViewById(R.id.ll_recent_used_item);
+		mRecentCategoryList = AppPrefs.getInstance(getActivity())
+				.getRecentUsedCategory();
+		setupCategoryUI(mRecentCategoryList, mRecentUsedCategory, true);
 		startQuery();
 
 	}
@@ -199,11 +202,12 @@ public class ChooseCategoryFragment extends Fragment {
 	}
 
 	private void startQuery() {
-		CategoryData data = (CategoryData) CacheManager.loadCache(getActivity(), AppConstants.CACHE_CATEGORY_DATA);
+		CategoryData data = (CategoryData) CacheManager.loadCache(
+				getActivity(), AppConstants.CACHE_CATEGORY_DATA);
 		if (data != null) {
 			handleCategoryData(data);
 		} else {
-			
+
 			CategoryMessage message = new CategoryMessage(
 					HTTP_TYPE.HTTP_TYPE_GET);
 			message.setContext(getActivity());
@@ -232,21 +236,23 @@ public class ChooseCategoryFragment extends Fragment {
 
 	private void handleCategoryData(CategoryData cat) {
 		if (cat != null) {
-			mLikeCategoryList = cat.getListLike();
-			mAllCategoryList = cat.getListOther();
+			mAllCategoryList.clear();
+			mAllCategoryList.addAll(cat.getListLike());
+			mAllCategoryList.addAll(cat.getListOther());
+			setupCategoryUI(mAllCategoryList, mAllCategory, false);
 		}
 	}
 
-	// private void clearSelection() {
-	//
-	// for (ChooseCategoryItemView item : mRecentItemViewList) {
-	// item.setItemChecked(false);
-	// }
-	// for (ChooseCategoryItemView item : mCategoryItemViewList) {
-	// item.setItemChecked(false);
-	// }
-	//
-	// }
+	private void clearSelection() {
+
+		for (ChooseCategoryItemView item : mRecentItemViewList) {
+			item.setItemChecked(false);
+		}
+		for (ChooseCategoryItemView item : mCategoryItemViewList) {
+			item.setItemChecked(false);
+		}
+
+	}
 
 	private void insertRecentCategory(Category category) {
 		if (mRecentCategoryList == null) {
@@ -264,80 +270,116 @@ public class ChooseCategoryFragment extends Fragment {
 	}
 
 	private void setSelectedCategory() {
-		// if (mSelectedCategory != null) {
-		// for (ChooseCategoryItemView view : mCategoryItemViewList) {
-		// if (TextUtils.equals(mSelectedCategory.getCategoryName(),
-		// view.getCategoryName())) {
-		// view.setItemChecked(true);
-		// break;
-		// }
-		// }
-		//
-		// }
+		if (mSelectedCategory != null) {
+			for (ChooseCategoryItemView view : mCategoryItemViewList) {
+				if (TextUtils.equals(mSelectedCategory.getCategoryName(),
+						view.getCategoryName())) {
+					view.setItemChecked(true);
+					break;
+				}
+			}
+
+		}
 	}
 
-	private void setupCategoryUI() {
-		ArrayList<Category> data = new ArrayList<Category>();
-		data.add(new Category("最近使用"));
-		data.add(new Category("我加入的"));
-		data.add(new Category("其他圈子"));
-		CategoryAdapter adapter = new CategoryAdapter(getActivity(), data);
-		mLvParent.setAdapter(adapter);
-		mLvChildren.setAdapter(new CategoryAdapter(getActivity(),
-				mRecentCategoryList));
-		mLvChildren.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	// private void setupCategoryUI() {
+	// ArrayList<Category> data = new ArrayList<Category>();
+	// data.add(new Category("最近使用"));
+	// data.add(new Category("我加入的"));
+	// data.add(new Category("其他圈子"));
+	// CategoryAdapter adapter = new CategoryAdapter(getActivity(), data);
+	// mLvParent.setAdapter(adapter);
+	// mLvChildren.setAdapter(new CategoryAdapter(getActivity(),
+	// mRecentCategoryList));
+	// mLvChildren.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	//
+	// mLvChildren.setOnItemClickListener(new OnItemClickListener() {
+	//
+	// @Override
+	// public void onItemClick(AdapterView<?> parent, View view,
+	// int position, long id) {
+	// switch (mCurrentParent) {
+	// case 0:
+	// mSelectedCategory = mRecentCategoryList.get(position);
+	// break;
+	// case 1:
+	// mSelectedCategory = mLikeCategoryList.get(position);
+	// break;
+	// case 2:
+	// mSelectedCategory = mAllCategoryList.get(position);
+	// break;
+	// }
+	// CategoryAdapter.setSelection(position);
+	// mLvChildren.invalidate();
+	// }
+	// });
+	// mLvParent.setOnItemClickListener(new OnItemClickListener() {
+	//
+	// @Override
+	// public void onItemClick(AdapterView<?> parent, View view,
+	// int position, long id) {
+	// CategoryAdapter childAdapter = null;
+	// switch (position) {
+	// case 0:
+	// childAdapter = new CategoryAdapter(getActivity(),
+	// mRecentCategoryList, true);
+	// break;
+	// case 1:
+	// childAdapter = new CategoryAdapter(getActivity(),
+	// mLikeCategoryList, true);
+	// break;
+	// case 2:
+	// childAdapter = new CategoryAdapter(getActivity(),
+	// mAllCategoryList, true);
+	// break;
+	// default:
+	// childAdapter = new CategoryAdapter(getActivity(),
+	// mRecentCategoryList);
+	// break;
+	// }
+	// mCurrentParent = position;
+	// CategoryAdapter.setSelection(-1);
+	//
+	// mLvChildren.setAdapter(childAdapter);
+	//
+	// }
+	// });
+	//
+	// }
 
-		mLvChildren.setOnItemClickListener(new OnItemClickListener() {
+	private void setupCategoryUI(ArrayList<Category> list, LinearLayout holder,
+			final boolean isRecent) {
+		if (list == null || list.size() <= 0)
+			return;
+		int rowCount = list.size() / 3;
+		for (int i = 0; i <= rowCount; i++) {
+			LinearLayout row = new LinearLayout(getActivity());
+			row.setOrientation(LinearLayout.HORIZONTAL);
+			for (int j = i * 3; j < i * 3 + 3; j++) {
+				if (j >= 0 && j < list.size()) {
+					final Category item = list.get(j);
+					String name = item.getCategoryName();
+					final ChooseCategoryItemView itemView = new ChooseCategoryItemView(
+							getActivity());
+					itemView.setCategoryName(name);
+					itemView.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				switch (mCurrentParent) {
-				case 0:
-					mSelectedCategory = mRecentCategoryList.get(position);
-					break;
-				case 1:
-					mSelectedCategory = mLikeCategoryList.get(position);
-					break;
-				case 2:
-					mSelectedCategory = mAllCategoryList.get(position);
-					break;
+						@Override
+						public void onClick(View v) {
+							clearSelection();
+							mSelectedCategory = item;
+							itemView.setItemChecked(true);
+						}
+					});
+					row.addView(itemView);
+					if (isRecent) {
+						mRecentItemViewList.add(itemView);
+					} else {
+						mCategoryItemViewList.add(itemView);
+					}
 				}
-				CategoryAdapter.setSelection(position);
-				mLvChildren.invalidate();
 			}
-		});
-		mLvParent.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				CategoryAdapter childAdapter = null;
-				switch (position) {
-				case 0:
-					childAdapter = new CategoryAdapter(getActivity(),
-							mRecentCategoryList, true);
-					break;
-				case 1:
-					childAdapter = new CategoryAdapter(getActivity(),
-							mLikeCategoryList, true);
-					break;
-				case 2:
-					childAdapter = new CategoryAdapter(getActivity(),
-							mAllCategoryList, true);
-					break;
-				default:
-					childAdapter = new CategoryAdapter(getActivity(),
-							mRecentCategoryList);
-					break;
-				}
-				mCurrentParent = position;
-				CategoryAdapter.setSelection(-1);
-
-				mLvChildren.setAdapter(childAdapter);
-
-			}
-		});
-
+			holder.addView(row);
+		}
 	}
 }

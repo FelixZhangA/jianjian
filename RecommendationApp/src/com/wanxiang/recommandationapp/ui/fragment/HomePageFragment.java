@@ -29,6 +29,8 @@ import com.wanxiang.recommandationapp.http.impl.NetTaskMessage.HTTP_TYPE;
 import com.wanxiang.recommandationapp.model.AbstractRecommendation;
 import com.wanxiang.recommandationapp.model.Recommendation;
 import com.wanxiang.recommandationapp.persistent.AppPrefs;
+import com.wanxiang.recommandationapp.service.category.CategoryData;
+import com.wanxiang.recommandationapp.service.category.CategoryMessage;
 import com.wanxiang.recommandationapp.service.homepage.HomePageMessage;
 import com.wanxiang.recommandationapp.ui.CommentsActivity;
 import com.wanxiang.recommandationapp.util.AppConstants;
@@ -53,6 +55,7 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 		super.onViewCreated(view, savedInstanceState);
 		
 		mListView = (PullToRefreshListView)getView().findViewById(R.id.lst_recomandation);
+		mListView.onRefreshComplete();
 		mListView.setOnItemClickListener(this);
 		mListView.setMode(Mode.BOTH);
 		mListView.setOnRefreshListener(new OnRefreshListener<ListView>()
@@ -81,7 +84,30 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 			mListRec.addAll(cacheData);
 			fillData();
 		} else {
-			startQuery(true);
+			mListView.setRefreshing();
+			CategoryMessage message = new CategoryMessage(
+					HTTP_TYPE.HTTP_TYPE_GET);
+			message.setContext(getActivity());
+			message.setParam(AppConstants.HEADER_TOKEN, AppPrefs
+					.getInstance(getActivity()).getSessionId());
+			message.setFusionCallBack(new FusionCallBack() {
+
+				@Override
+				public void onFinish(FusionMessage msg) {
+					super.onFinish(msg);
+					CategoryData data = (CategoryData) msg
+							.getResponseData();
+					CacheManager.saveCache(getActivity(), AppConstants.CACHE_CATEGORY_DATA, data);
+					startQuery(true);
+				}
+
+				@Override
+				public void onFailed(FusionMessage msg) {
+					super.onFailed(msg);
+				}
+
+			});
+			FusionBus.getInstance(getActivity()).sendMessage(message);
 		}
 
 	}
@@ -91,6 +117,7 @@ public class HomePageFragment extends BaseFragment implements OnItemClickListene
 		final AppPrefs appPrefs = AppPrefs.getInstance(getActivity());
 
 		HomePageMessage message = new HomePageMessage(HTTP_TYPE.HTTP_TYPE_GET);
+		message.setContext(getActivity());
 
 		message.setParam(AppConstants.HEADER_TOKEN, AppPrefs.getInstance(getActivity()).getSessionId());
 

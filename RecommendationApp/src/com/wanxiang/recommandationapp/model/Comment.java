@@ -1,16 +1,19 @@
 package com.wanxiang.recommandationapp.model;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.wanxiang.recommandationapp.util.AppConstants;
+import com.wanxiang.recommandationapp.util.JSONUtils;
 
 /*
  * [id] => 56 [tuijian_id] => 168 [user_id] => 3 [replyed_user_id] => 0
  * [comment] => 儿子每天回来都看 [update_time] => 1417976164 [user_name] => 邹剑
  */
 
-public class Comment {
+public class Comment implements Serializable {
 	private long userId;
 	private User user;
 	private long replyedUserId;
@@ -101,18 +104,16 @@ public class Comment {
 	public void setUser(JSONObject object) {
 		if (object != null) {
 			this.user = new User();
-			try {
-				user.setId(object.getLong(AppConstants.RESPONSE_HEADER_ID));
-				user.setName(object.getString(AppConstants.HEADER_USER_NAME));
-				user.setSignature(object
-						.getString(AppConstants.HEADER_SIGNATURE));
-				user.setHeadImage(object
-						.getString(AppConstants.HEADER_HEAD_IMAGE));
-				user.setRemark(object.getString(AppConstants.HEADER_REMARK));
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			user.setId(JSONUtils.getLong(object,
+					AppConstants.RESPONSE_HEADER_ID));
+			user.setName(JSONUtils.getString(object,
+					AppConstants.HEADER_USER_NAME));
+			user.setSignature(JSONUtils.getString(object,
+					AppConstants.HEADER_SIGNATURE));
+			user.setHeadImage(JSONUtils.getString(object,
+					AppConstants.HEADER_HEAD_IMAGE));
+			user.setRemark(JSONUtils.getString(object,
+					AppConstants.HEADER_REMARK));
 		}
 	}
 }

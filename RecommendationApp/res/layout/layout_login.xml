@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/mobile_number_hint"
-        android:inputType="phone"
-        android:text="18101035319" />
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/et_password"
